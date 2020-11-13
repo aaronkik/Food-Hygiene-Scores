@@ -8,8 +8,9 @@
         android:title="@string/action_settings"
         app:showAsAction="never" />
     <item
-        android:id="@+id/ic_location"
-        android:icon="@drawable/ic_location"
-        android:title="@string/action_location"
-        app:showAsAction="ifRoom" />
+        android:id="@+id/search"
+        android:icon="@drawable/ic_search"
+        android:title="@string/search_action"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="collapseActionView|ifRoom" />
 </menu>

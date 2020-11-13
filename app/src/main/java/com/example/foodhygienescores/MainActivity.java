@@ -1,13 +1,18 @@
 package com.example.foodhygienescores;
 
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 
 import android.view.Menu;
@@ -36,6 +41,22 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.d("QUERY", query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.d("QUERY", newText);
+                return false;
+            }
+        });
         return true;
     }
 
@@ -53,4 +74,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }
