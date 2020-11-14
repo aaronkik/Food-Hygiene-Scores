@@ -1,7 +1,10 @@
 package com.example.foodhygienescores;
 
 import android.net.Uri;
-import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,9 +12,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class APIUtils {
-    public static final String LOG_TAG = APIUtils.class.getSimpleName();
     // Base URL for API.
     private static final String API_URL = "https://api.ratings.food.gov.uk/Establishments?";
     // Headers for API Version
@@ -22,10 +25,13 @@ public class APIUtils {
     // Parameter that limits search results based on address.
     private static final String MAX_DISTANCE_MILES = "1";
 
-    static String getFoodHygieneData(String queryString) {
+    static ArrayList getFoodHygieneData(String queryString) {
+
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
-        String bookJSONString = null;
+        String jsonResultString = null;
+        ArrayList<APIResultsModel> resultsList = new ArrayList<>();
+
         try {
 
             Uri builtURI = Uri.parse(API_URL).buildUpon()
@@ -41,21 +47,34 @@ public class APIUtils {
 
             InputStream inputStream = urlConnection.getInputStream();
             reader = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuilder builder = new StringBuilder();
 
             String line;
             while ((line = reader.readLine()) != null) {
-                builder.append(line);
+                JSONObject resultObject = new JSONObject(line);
+                JSONArray jsonArray = resultObject.getJSONArray("establishments");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                    // Skip empty objects if present
+                    if (jsonObject != null) {
+                        APIResultsModel resultsModel = new APIResultsModel(
+                                jsonObject.getString("FHRSID"),
+                                jsonObject.getString("BusinessName"),
+                                jsonObject.getString("AddressLine1"),
+                                jsonObject.getString("AddressLine2"),
+                                jsonObject.getString("AddressLine3"),
+                                jsonObject.getString("PostCode"),
+                                jsonObject.getString("RatingValue"),
+                                jsonObject.getJSONObject("geocode")
+                        );
+                        resultsList.add(resultsModel);
+                    }
+                }
             }
-            if (builder.length() == 0) {
-                return null;
-            }
 
-            bookJSONString = builder.toString();
+        } catch (IOException | JSONException e) {
 
-
-        } catch (IOException e) {
             e.printStackTrace();
+
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -68,9 +87,8 @@ public class APIUtils {
                 }
             }
         }
-        Log.d(LOG_TAG, bookJSONString);
 
-        return bookJSONString;
+        return resultsList;
 
     }
 }

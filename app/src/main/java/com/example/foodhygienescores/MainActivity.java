@@ -3,6 +3,7 @@ package com.example.foodhygienescores;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -26,9 +27,10 @@ import java.util.LinkedList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private LinkedList<Object> mFoodHygieneData;
+    private ArrayList<APIResultsModel> resultsModel;
     private FloatingActionButton mFab;
     private RecyclerView mRecyclerView;
+    private FoodHygieneAdapter mAdapter;
     private TextView mIntroText, mCardHeader;
 
     @Override
@@ -38,18 +40,19 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mCardHeader = (TextView) findViewById(R.id.card_title);
-        mIntroText = (TextView) findViewById(R.id.textView);
+        mCardHeader = findViewById(R.id.card_title);
+        mIntroText = findViewById(R.id.textView);
+        resultsModel = new ArrayList<>();
 
-        mFoodHygieneData = new LinkedList<>();
         mRecyclerView = findViewById(R.id.recyclerview);
+        mAdapter = new FoodHygieneAdapter(this, resultsModel);
+        mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         mFab = findViewById(R.id.fab);
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
             }
         });
     }
@@ -58,23 +61,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                new FetchResults(mIntroText).execute(query);
-                Log.d("QUERY", query);
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                //Required but not in use.
-                return false;
-            }
-        });
         return true;
     }
 
@@ -85,13 +71,31 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_settings:
+                return true;
+            case R.id.search:
+                SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+                SearchView searchView = (SearchView) item.getActionView();
+                searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        FetchResults fetchResults = new FetchResults(mIntroText, mCardHeader);
+                        fetchResults.execute(query);
+
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        //Required but not in use.
+                        return false;
+                    }
+                });
         }
 
         return super.onOptionsItemSelected(item);
     }
-
 
 }

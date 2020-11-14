@@ -10,55 +10,47 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class FoodHygieneAdapter extends
-        RecyclerView.Adapter<FoodHygieneAdapter.FoodHygieneHolder> {
+public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.FoodHygieneHolder> {
 
-    private final LinkedList<String> mFoodHygieneData;
-    private final LayoutInflater mInflater;
-
-    public FoodHygieneAdapter(Context context, LinkedList<String> foodHygieneData) {
-        mInflater = LayoutInflater.from(context);
-        this.mFoodHygieneData = foodHygieneData;
-    }
-
-    class FoodHygieneHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener {
-        public final TextView mItemView;
+    class FoodHygieneHolder extends RecyclerView.ViewHolder {
+        public final TextView mTextView;
         final FoodHygieneAdapter mAdapter;
-
 
         public FoodHygieneHolder(View itemView, FoodHygieneAdapter adapter) {
             super(itemView);
-            mItemView = itemView.findViewById(R.id.card_title);
+            mTextView = itemView.findViewById(R.id.card_title);
             this.mAdapter = adapter;
-            itemView.setOnClickListener(this);
         }
+    }
 
-        @Override
-        public void onClick(View v) {
-            Log.d("ITEM CLICK", "onClick: ");
-        }
+    private final ArrayList<APIResultsModel> mResultsList;
+    private final LayoutInflater mInflater;
+
+    public FoodHygieneAdapter(Context context, ArrayList<APIResultsModel> resultsList) {
+        mInflater = LayoutInflater.from(context);
+        this.mResultsList = resultsList;
     }
 
     @NonNull
     @Override
-    public FoodHygieneAdapter.FoodHygieneHolder onCreateViewHolder
+    public FoodHygieneHolder onCreateViewHolder
             (@NonNull ViewGroup parent, int viewType) {
         View mItemView = mInflater.inflate(R.layout.recycler_item, parent, false);
         return new FoodHygieneHolder(mItemView, this);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FoodHygieneAdapter.FoodHygieneHolder holder,
-                                 int position) {
-        String mCurrent = mFoodHygieneData.get(position);
-        holder.mItemView.setText(mCurrent);
+    public void onBindViewHolder(@NonNull FoodHygieneHolder holder, int position) {
+//        APIResultsModel resultsModel = mResultsList.get(position);
+//        String mName = resultsModel.getBusinessName();
+        holder.mTextView.setText("OWOW");
     }
 
     @Override
     public int getItemCount() {
-        return mFoodHygieneData.size();
+        return mResultsList.size();
     }
 }
