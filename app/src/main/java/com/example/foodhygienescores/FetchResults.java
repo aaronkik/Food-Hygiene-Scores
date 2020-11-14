@@ -10,16 +10,16 @@ import org.json.JSONObject;
 import java.lang.ref.WeakReference;
 
 public class FetchResults extends AsyncTask<String, Void, String> {
-    private WeakReference<TextView> mTitleText, mAuthorText;
+    private WeakReference<TextView> mIntroText;
 
-    FetchResults(TextView titleText, TextView authorText) {
-        this.mTitleText = new WeakReference<>(titleText);
-        this.mAuthorText = new WeakReference<>(authorText);
+    FetchResults(TextView introText) {
+        this.mIntroText = new WeakReference<>(introText);
+
     }
 
     @Override
     protected String doInBackground(String... strings) {
-        return APIUtils.getBookInfo(strings[0]);
+        return APIUtils.getFoodHygieneData(strings[0]);
     }
 
     @Override
@@ -27,23 +27,22 @@ public class FetchResults extends AsyncTask<String, Void, String> {
         super.onPostExecute(s);
         try {
             JSONObject jsonObject = new JSONObject(s);
-            JSONArray jsonArray = jsonObject.getJSONArray("items");
+            JSONArray jsonArray = jsonObject.getJSONArray("establishments");
 
             int i = 0;
-            String title = null;
-            String authors = null;
+            String name = null;
+            String rating = null;
 
             while (i < jsonArray.length() &&
-                    (authors == null && title == null)) {
+                    (rating == null && name == null)) {
                 // Get the current item information.
-                JSONObject book = jsonArray.getJSONObject(i);
-                JSONObject volumeInfo = book.getJSONObject("volumeInfo");
+                JSONObject establishment = jsonArray.getJSONObject(i);
 
                 // Try to get the author and title from the current item,
                 // catch if either field is empty and move on.
                 try {
-                    title = volumeInfo.getString("title");
-                    authors = volumeInfo.getString("authors");
+                    name = establishment.getString("businessName");
+                    rating = establishment.getString("RatingValue");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -52,19 +51,16 @@ public class FetchResults extends AsyncTask<String, Void, String> {
                 i++;
             }
 
-            if (title != null && authors != null) {
-                mTitleText.get().setText(title);
-                mAuthorText.get().setText(authors);
+            if (name != null && rating != null) {
+                mIntroText.get().setText(name);
             } else {
-                mTitleText.get().setText(R.string.no_results);
-                mAuthorText.get().setText("");
+                mIntroText.get().setText("ERROR");
             }
 
 
         } catch (JSONException e) {
             e.printStackTrace();
-            mTitleText.get().setText(R.string.no_results);
-            mAuthorText.get().setText("");
+            mIntroText.get().setText("ERROR");
         }
     }
 }

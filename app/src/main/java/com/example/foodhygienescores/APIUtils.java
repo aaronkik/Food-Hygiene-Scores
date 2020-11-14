@@ -12,30 +12,31 @@ import java.net.URL;
 
 public class APIUtils {
     public static final String LOG_TAG = APIUtils.class.getSimpleName();
-    // Base URL for Books API.
-    private static final String BOOK_BASE_URL = "https://www.googleapis.com/books/v1/volumes?";
-    // Parameter for the search string.
-    private static final String QUERY_PARAM = "q";
-    // Parameter that limits search results.
-    private static final String MAX_RESULTS = "maxResults";
-    // Parameter to filter by print type.
-    private static final String PRINT_TYPE = "printType";
+    // Base URL for API.
+    private static final String API_URL = "https://api.ratings.food.gov.uk/Establishments?";
+    // Headers for API Version
+    public static final String API_VERSION = "2";
+    // Query parameters for the search string.
+    private static final String QUERY_PARAM_ADDRESS = "address";
+    private static final String QUERY_PARAM_DISTANCE = "maxDistanceLimit";
+    // Parameter that limits search results based on address.
+    private static final String MAX_DISTANCE_MILES = "1";
 
-    static String getBookInfo(String queryString) {
+    static String getFoodHygieneData(String queryString) {
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
         String bookJSONString = null;
         try {
 
-            Uri builtURI = Uri.parse(BOOK_BASE_URL).buildUpon()
-                    .appendQueryParameter(QUERY_PARAM, queryString)
-                    .appendQueryParameter(MAX_RESULTS, "10")
-                    .appendQueryParameter(PRINT_TYPE, "books")
+            Uri builtURI = Uri.parse(API_URL).buildUpon()
+                    .appendQueryParameter(QUERY_PARAM_ADDRESS, queryString)
+                    .appendQueryParameter(QUERY_PARAM_DISTANCE, MAX_DISTANCE_MILES)
                     .build();
             URL requestURL = new URL(builtURI.toString());
 
             urlConnection = (HttpURLConnection) requestURL.openConnection();
             urlConnection.setRequestMethod("GET");
+            urlConnection.addRequestProperty("x-api-version", API_VERSION);
             urlConnection.connect();
 
             InputStream inputStream = urlConnection.getInputStream();

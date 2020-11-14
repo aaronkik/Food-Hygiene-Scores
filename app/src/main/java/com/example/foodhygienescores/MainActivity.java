@@ -22,13 +22,14 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList<Object> mFoodHygieneData;
+    private LinkedList<Object> mFoodHygieneData;
     private FloatingActionButton mFab;
     private RecyclerView mRecyclerView;
-    private TextView mIntroText;
+    private TextView mIntroText, mCardHeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,10 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mFoodHygieneData = new ArrayList<>();
+        mCardHeader = (TextView) findViewById(R.id.card_title);
+        mIntroText = (TextView) findViewById(R.id.textView);
+
+        mFoodHygieneData = new LinkedList<>();
         mRecyclerView = findViewById(R.id.recyclerview);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mFab = findViewById(R.id.fab);
@@ -60,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                new FetchResults(mIntroText).execute(query);
                 Log.d("QUERY", query);
                 return true;
             }
