@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -82,7 +83,15 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
                         FetchResults fetchResults = new FetchResults(mIntroText, mCardHeader);
-                        fetchResults.execute(query);
+                        try {
+                            resultsModel.clear();
+                            resultsModel.addAll(fetchResults.execute(query).get());
+                            mAdapter.notifyDataSetChanged();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
 
                         return true;
                     }
@@ -97,5 +106,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 
 }

@@ -44,9 +44,9 @@ public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull FoodHygieneHolder holder, int position) {
-//        APIResultsModel resultsModel = mResultsList.get(position);
-//        String mName = resultsModel.getBusinessName();
-        holder.mTextView.setText("OWOW");
+        APIResultsModel resultsModel = mResultsList.get(position);
+        String mName = resultsModel.getBusinessName();
+        holder.mTextView.setText(mName);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.foodhygienescores;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.AdapterView;
 import android.widget.TextView;
@@ -11,7 +12,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 public class FetchResults extends AsyncTask<String, Void, ArrayList> {
-    //Use WeakReference to prevent memory leaks for GC collection
+    // Use WeakReference to prevent memory leaks for GC collection
     private WeakReference<TextView> mIntroText;
     private WeakReference<TextView> mCardHeader;
 
@@ -28,12 +29,11 @@ public class FetchResults extends AsyncTask<String, Void, ArrayList> {
     //Executes on the UI Thread
     @Override
     protected void onPostExecute(ArrayList s) {
+        super.onPostExecute(s);
         try {
-
             if (s.size() != 0) {
                 String resultSize = String.valueOf(s.size());
                 mIntroText.get().setText("Results retrieved: " + resultSize);
-                mCardHeader.get().setText("HEHEH");
             } else {
                 mIntroText.get().setText("No Results");
             }
@@ -42,6 +42,6 @@ public class FetchResults extends AsyncTask<String, Void, ArrayList> {
             e.printStackTrace();
             mIntroText.get().setText("ERROR");
         }
-        super.onPostExecute(s);
+
     }
 }
