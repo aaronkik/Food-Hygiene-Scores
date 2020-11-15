@@ -2,12 +2,9 @@ package com.example.foodhygienescores;
 
 import android.app.SearchManager;
 import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -15,24 +12,24 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList<APIResultsModel> resultsModel;
+    private ArrayList<APIResultsModel> resultsList;
+    private ProgressBar mProgressBar;
     private FloatingActionButton mFab;
-    private RecyclerView mRecyclerView;
     private FoodHygieneAdapter mAdapter;
-    private TextView mIntroText, mCardHeader;
+    private RecyclerView mRecyclerView;
+    private TextView mIntroText, mBusinessName, mAddress1, mAddress2, mAddress3, mRatingValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +38,16 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mCardHeader = findViewById(R.id.card_title);
+        resultsList = new ArrayList<>();
+        mProgressBar = findViewById(R.id.progress_bar);
         mIntroText = findViewById(R.id.textView);
-        resultsModel = new ArrayList<>();
-
+        mBusinessName = findViewById(R.id.business_name);
+        mAddress1 = findViewById(R.id.address_1);
+        mAddress2 = findViewById(R.id.address_2);
+        mAddress3 = findViewById(R.id.address_3);
+        mRatingValue = findViewById(R.id.rating_value);
         mRecyclerView = findViewById(R.id.recyclerview);
-        mAdapter = new FoodHygieneAdapter(this, resultsModel);
+        mAdapter = new FoodHygieneAdapter(this, resultsList);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -82,11 +83,16 @@ public class MainActivity extends AppCompatActivity {
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
-                        FetchResults fetchResults = new FetchResults(mIntroText, mCardHeader);
+                        mProgressBar.setVisibility(View.VISIBLE);
+                        mIntroText.setVisibility(View.GONE);
+                        FetchResults fetchResults = new FetchResults(mProgressBar, mBusinessName,
+                                mAddress1, mAddress2, mAddress3, mRatingValue);
                         try {
-                            resultsModel.clear();
-                            resultsModel.addAll(fetchResults.execute(query).get());
+                            resultsList.clear();
+                            resultsList.addAll(fetchResults.execute(query).get());
                             mAdapter.notifyDataSetChanged();
+                            mRecyclerView.setVisibility(View.VISIBLE);
+                            mProgressBar.setVisibility(View.INVISIBLE);
                         } catch (ExecutionException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {

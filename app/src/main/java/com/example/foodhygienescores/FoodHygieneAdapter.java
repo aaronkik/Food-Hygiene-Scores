@@ -1,7 +1,6 @@
 package com.example.foodhygienescores;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.FoodHygieneHolder> {
 
@@ -21,7 +19,7 @@ public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.
 
         public FoodHygieneHolder(View itemView, FoodHygieneAdapter adapter) {
             super(itemView);
-            mTextView = itemView.findViewById(R.id.card_title);
+            mTextView = itemView.findViewById(R.id.business_name);
             this.mAdapter = adapter;
         }
     }

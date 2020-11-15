@@ -23,13 +23,12 @@ public class APIUtils {
     private static final String QUERY_PARAM_ADDRESS = "address";
     private static final String QUERY_PARAM_DISTANCE = "maxDistanceLimit";
     // Parameter that limits search results based on address.
-    private static final String MAX_DISTANCE_MILES = "1";
+    private static final String MAX_DISTANCE_MILES = "0.5";
 
-    static ArrayList getFoodHygieneData(String queryString) {
+    static ArrayList<APIResultsModel> getFoodHygieneData(String queryString) {
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
-        String jsonResultString = null;
         ArrayList<APIResultsModel> resultsList = new ArrayList<>();
 
         try {

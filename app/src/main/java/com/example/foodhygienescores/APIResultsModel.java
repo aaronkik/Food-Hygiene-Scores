@@ -1,5 +1,7 @@
 package com.example.foodhygienescores;
 
+import androidx.annotation.Nullable;
+
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -22,7 +24,6 @@ public class APIResultsModel {
     private String postCode;
     private String ratingValue;
     private JSONObject geoCode;
-    private ArrayList<APIResultsModel> test;
 
     public APIResultsModel(String fhrsid, String businessName, String addressLine1,
                            String addressLine2, String addressLine3, String postCode,
@@ -36,14 +37,7 @@ public class APIResultsModel {
         this.postCode = postCode;
         this.ratingValue = ratingValue;
         this.geoCode = geoCode;
-    }
 
-    public ArrayList<APIResultsModel> getTest() {
-        return test;
-    }
-
-    public void setTest(ArrayList<APIResultsModel> test) {
-        this.test = test;
     }
 
     public String getFHRSID() {
