@@ -1,6 +1,7 @@
 package com.example.foodhygienescores;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,7 @@ import java.util.List;
 
 public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.FoodHygieneHolder> {
 
-    class FoodHygieneHolder extends RecyclerView.ViewHolder {
+    class FoodHygieneHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public final TextView mBusinessName, mAddress, mRatingValue;
         final FoodHygieneAdapter mAdapter;
@@ -26,7 +27,14 @@ public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.
             this.mAddress = itemView.findViewById(R.id.address);
             this.mRatingValue = itemView.findViewById(R.id.rating_value);
             this.mAdapter = adapter;
+            itemView.setOnClickListener(this::onClick);
+        }
 
+        @Override
+        public void onClick(View view) {
+            int mPosition = getLayoutPosition();
+            View xD = view;
+            Log.i("POS", String.valueOf(mPosition));
         }
     }
 

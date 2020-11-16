@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements
     private FloatingActionButton mFab;
     private FoodHygieneAdapter mAdapter;
     private RecyclerView mRecyclerView;
-    private TextView mIntroText, mBusinessName, mAddress, mRatingValue;
+    private TextView mIntroText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +48,6 @@ public class MainActivity extends AppCompatActivity implements
         mResultsList = new ArrayList<>();
         mProgressBar = findViewById(R.id.progress_bar);
         mIntroText = findViewById(R.id.textView);
-        mBusinessName = findViewById(R.id.business_name);
-        mAddress = findViewById(R.id.address);
-        mRatingValue = findViewById(R.id.rating_value);
         mRecyclerView = findViewById(R.id.recyclerview);
         mAdapter = new FoodHygieneAdapter(this, mResultsList);
         mRecyclerView.setAdapter(mAdapter);

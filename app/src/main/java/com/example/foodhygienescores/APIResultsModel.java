@@ -24,11 +24,13 @@ public class APIResultsModel {
     private String addressLine4;
     private String postCode;
     private String ratingValue;
-    private JSONObject geoCode;
+    private String longitude;
+    private String latitude;
+
 
     public APIResultsModel(String fhrsid, String businessName, String addressLine1,
                            String addressLine2, String addressLine3, String addressLine4,
-                           String postCode, String ratingValue, JSONObject geoCode) {
+                           String postCode, String ratingValue, String longitude, String latitude) {
 
         this.FHRSID = fhrsid;
         this.businessName = businessName;
@@ -38,7 +40,8 @@ public class APIResultsModel {
         this.addressLine4 = addressLine4;
         this.postCode = postCode;
         this.ratingValue = ratingValue;
-        this.geoCode = geoCode;
+        this.longitude = longitude;
+        this.latitude = latitude;
 
     }
 
@@ -104,14 +107,6 @@ public class APIResultsModel {
 
     public void setRatingValue(String ratingValue) {
         this.ratingValue = ratingValue;
-    }
-
-    public JSONObject getGeoCode() {
-        return geoCode;
-    }
-
-    public void setGeoCode(JSONObject geoCode) {
-        this.geoCode = geoCode;
     }
 
 }

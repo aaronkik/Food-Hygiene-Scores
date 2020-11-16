@@ -64,7 +64,8 @@ public class APIUtils {
                                 jsonObject.getString("AddressLine4"),
                                 jsonObject.getString("PostCode"),
                                 jsonObject.getString("RatingValue"),
-                                jsonObject.getJSONObject("geocode")
+                                jsonObject.getJSONObject("geocode").getString("longitude"),
+                                jsonObject.getJSONObject("geocode").getString("latitude")
                         );
                         resultsList.add(resultsModel);
                     }
