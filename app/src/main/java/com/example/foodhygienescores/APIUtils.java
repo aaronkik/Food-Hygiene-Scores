@@ -61,6 +61,7 @@ public class APIUtils {
                                 jsonObject.getString("AddressLine1"),
                                 jsonObject.getString("AddressLine2"),
                                 jsonObject.getString("AddressLine3"),
+                                jsonObject.getString("AddressLine4"),
                                 jsonObject.getString("PostCode"),
                                 jsonObject.getString("RatingValue"),
                                 jsonObject.getJSONObject("geocode")

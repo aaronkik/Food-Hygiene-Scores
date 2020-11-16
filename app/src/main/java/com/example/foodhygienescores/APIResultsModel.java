@@ -21,19 +21,21 @@ public class APIResultsModel {
     private String addressLine1;
     private String addressLine2;
     private String addressLine3;
+    private String addressLine4;
     private String postCode;
     private String ratingValue;
     private JSONObject geoCode;
 
     public APIResultsModel(String fhrsid, String businessName, String addressLine1,
-                           String addressLine2, String addressLine3, String postCode,
-                           String ratingValue, JSONObject geoCode) {
+                           String addressLine2, String addressLine3, String addressLine4,
+                           String postCode, String ratingValue, JSONObject geoCode) {
 
         this.FHRSID = fhrsid;
         this.businessName = businessName;
         this.addressLine1 = addressLine1;
         this.addressLine2 = addressLine2;
         this.addressLine3 = addressLine3;
+        this.addressLine4 = addressLine4;
         this.postCode = postCode;
         this.ratingValue = ratingValue;
         this.geoCode = geoCode;
@@ -78,6 +80,14 @@ public class APIResultsModel {
 
     public void setAddressLine3(String addressLine3) {
         this.addressLine3 = addressLine3;
+    }
+
+    public String getAddressLine4() {
+        return addressLine4;
+    }
+
+    public void setAddressLine4(String addressLine4) {
+        this.addressLine4 = addressLine4;
     }
 
     public String getPostCode() {

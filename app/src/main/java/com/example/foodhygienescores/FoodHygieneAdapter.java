@@ -10,17 +10,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.FoodHygieneHolder> {
 
     class FoodHygieneHolder extends RecyclerView.ViewHolder {
-        public final TextView mTextView;
+
+        public final TextView mBusinessName, mAddress, mRatingValue;
         final FoodHygieneAdapter mAdapter;
 
         public FoodHygieneHolder(View itemView, FoodHygieneAdapter adapter) {
+
             super(itemView);
-            mTextView = itemView.findViewById(R.id.business_name);
+            this.mBusinessName = itemView.findViewById(R.id.business_name);
+            this.mAddress = itemView.findViewById(R.id.address);
+            this.mRatingValue = itemView.findViewById(R.id.rating_value);
             this.mAdapter = adapter;
+
         }
     }
 
@@ -42,9 +48,33 @@ public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull FoodHygieneHolder holder, int position) {
+
         APIResultsModel resultsModel = mResultsList.get(position);
-        String mName = resultsModel.getBusinessName();
-        holder.mTextView.setText(mName);
+
+        String businessName = resultsModel.getBusinessName();
+
+        List<String> addressList = new ArrayList<>();
+        addressList.add(resultsModel.getAddressLine1());
+        addressList.add(resultsModel.getAddressLine2());
+        addressList.add(resultsModel.getAddressLine3());
+        addressList.add(resultsModel.getAddressLine4());
+        addressList.add(resultsModel.getPostCode());
+
+        StringBuilder stringBuilder = new StringBuilder();
+        // Filter out any address lines with empty strings
+        for (String string : addressList) {
+            if (string.length() > 0) {
+                stringBuilder.append(string + "\n");
+            }
+        }
+
+        String address = stringBuilder.toString();
+        String ratingValue = resultsModel.getRatingValue();
+
+        holder.mBusinessName.setText(businessName);
+        holder.mAddress.setText(address);
+        holder.mRatingValue.setText(ratingValue);
+
     }
 
     @Override

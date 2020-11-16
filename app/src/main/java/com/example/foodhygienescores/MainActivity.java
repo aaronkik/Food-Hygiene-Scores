@@ -2,16 +2,22 @@ package com.example.foodhygienescores;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.View;
 
 import android.view.Menu;
@@ -22,14 +28,15 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements
+        LoaderManager.LoaderCallbacks<ArrayList<APIResultsModel>> {
 
-    private ArrayList<APIResultsModel> resultsList;
+    private ArrayList<APIResultsModel> mResultsList;
     private ProgressBar mProgressBar;
     private FloatingActionButton mFab;
     private FoodHygieneAdapter mAdapter;
     private RecyclerView mRecyclerView;
-    private TextView mIntroText, mBusinessName, mAddress1, mAddress2, mAddress3, mRatingValue;
+    private TextView mIntroText, mBusinessName, mAddress, mRatingValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,19 +44,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        resultsList = new ArrayList<>();
+        mResultsList = new ArrayList<>();
         mProgressBar = findViewById(R.id.progress_bar);
         mIntroText = findViewById(R.id.textView);
         mBusinessName = findViewById(R.id.business_name);
-        mAddress1 = findViewById(R.id.address_1);
-        mAddress2 = findViewById(R.id.address_2);
-        mAddress3 = findViewById(R.id.address_3);
+        mAddress = findViewById(R.id.address);
         mRatingValue = findViewById(R.id.rating_value);
         mRecyclerView = findViewById(R.id.recyclerview);
-        mAdapter = new FoodHygieneAdapter(this, resultsList);
+        mAdapter = new FoodHygieneAdapter(this, mResultsList);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        if (getSupportLoaderManager().getLoader(0) != null) {
+            getSupportLoaderManager().initLoader(0, null, this);
+        }
 
         mFab = findViewById(R.id.fab);
         mFab.setOnClickListener(new View.OnClickListener() {
@@ -83,22 +91,10 @@ public class MainActivity extends AppCompatActivity {
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
+                        Bundle queryBundle = new Bundle();
+                        queryBundle.putString("query", query);
+                        getSupportLoaderManager().restartLoader(0, queryBundle, MainActivity.this);
                         mProgressBar.setVisibility(View.VISIBLE);
-                        mIntroText.setVisibility(View.GONE);
-                        FetchResults fetchResults = new FetchResults(mProgressBar, mBusinessName,
-                                mAddress1, mAddress2, mAddress3, mRatingValue);
-                        try {
-                            resultsList.clear();
-                            resultsList.addAll(fetchResults.execute(query).get());
-                            mAdapter.notifyDataSetChanged();
-                            mRecyclerView.setVisibility(View.VISIBLE);
-                            mProgressBar.setVisibility(View.INVISIBLE);
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
                         return true;
                     }
 
@@ -111,7 +107,36 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+
     }
 
+    //Callback methods to the ResultsLoader
+    @NonNull
+    @Override
+    public Loader<ArrayList<APIResultsModel>> onCreateLoader(int id, @Nullable Bundle args) {
 
+        String query = "";
+        if (args != null) {
+            query = args.getString("query");
+        }
+
+        return new ResultLoader(this, query);
+
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<ArrayList<APIResultsModel>> loader, ArrayList<APIResultsModel> data) {
+        // Clear previous list and load list with new data
+        mResultsList.clear();
+        mResultsList.addAll(data);
+        mAdapter.notifyDataSetChanged();
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mIntroText.setVisibility(View.INVISIBLE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<ArrayList<APIResultsModel>> loader) {
+    }
 }
