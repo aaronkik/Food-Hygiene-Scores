@@ -22,6 +22,7 @@ import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -94,6 +95,13 @@ public class MainActivity extends AppCompatActivity implements
                         Bundle queryBundle = new Bundle();
                         queryBundle.putString("query", query);
                         getSupportLoaderManager().restartLoader(0, queryBundle, MainActivity.this);
+                        InputMethodManager inputManager = (InputMethodManager)
+                                getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                        if (inputManager != null) {
+                            inputManager.hideSoftInputFromWindow(searchView.getWindowToken(),
+                                    InputMethodManager.HIDE_NOT_ALWAYS);
+                        }
                         mProgressBar.setVisibility(View.VISIBLE);
                         return true;
                     }
@@ -130,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements
         mResultsList.clear();
         mResultsList.addAll(data);
         mAdapter.notifyDataSetChanged();
-        mProgressBar.setVisibility(View.INVISIBLE);
+        mProgressBar.setVisibility(View.GONE);
         mIntroText.setVisibility(View.INVISIBLE);
         mRecyclerView.setVisibility(View.VISIBLE);
 
