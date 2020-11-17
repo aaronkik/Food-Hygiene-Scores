@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements
     private FoodHygieneAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private TextView mIntroText;
+    private Boolean mWideScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +75,9 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        // Handle action bar item clicks here.
 
-        switch (id) {
+        switch (item.getItemId()) {
             case R.id.action_settings:
                 return true;
             case R.id.search:
