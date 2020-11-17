@@ -2,6 +2,7 @@ package com.example.foodhygienescores;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.
 
         public final TextView mBusinessName, mAddress, mRatingValue;
         final FoodHygieneAdapter mAdapter;
+        public static final String PASS_DATA = "DATA";
 
         public FoodHygieneHolder(View itemView, FoodHygieneAdapter adapter) {
 
@@ -36,17 +38,16 @@ public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.
 
         @Override
         public void onClick(View view) {
-            int mPosition = getLayoutPosition();
+            APIResultsModel resultList = mResultsList.get(getAdapterPosition());
             Context context = view.getContext();
             Intent intent = new Intent(context, DetailActivity.class);
-            intent.putParcelableArrayListExtra(PASS_DATA, mResultsList.get(mPosition));
+            intent.putExtra(PASS_DATA, resultList);
             context.startActivity(intent);
         }
     }
 
     private final ArrayList<APIResultsModel> mResultsList;
     private final LayoutInflater mInflater;
-    public static final String PASS_DATA = "DATA";
 
     public FoodHygieneAdapter(Context context, ArrayList<APIResultsModel> resultsList) {
         mInflater = LayoutInflater.from(context);

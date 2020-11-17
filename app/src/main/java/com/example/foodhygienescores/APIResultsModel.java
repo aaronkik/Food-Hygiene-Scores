@@ -4,10 +4,11 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
-public class APIResultsModel extends ArrayList<Parcelable> {
+public class APIResultsModel implements Serializable {
 
     /*
     Variable names based on the API response:
@@ -110,5 +111,20 @@ public class APIResultsModel extends ArrayList<Parcelable> {
         this.ratingValue = ratingValue;
     }
 
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
 }
 
