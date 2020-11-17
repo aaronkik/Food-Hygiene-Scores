@@ -1,12 +1,13 @@
 package com.example.foodhygienescores;
 
-import androidx.annotation.Nullable;
+import android.os.Parcelable;
 
-import org.json.JSONObject;
+import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.stream.Stream;
 
-public class APIResultsModel {
+public class APIResultsModel extends ArrayList<Parcelable> {
 
     /*
     Variable names based on the API response:

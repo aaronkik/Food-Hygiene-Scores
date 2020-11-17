@@ -1,7 +1,8 @@
 package com.example.foodhygienescores;
 
 import android.content.Context;
-import android.util.Log;
+import android.content.Intent;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +11,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.FoodHygieneHolder> {
 
     class FoodHygieneHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
 
         public final TextView mBusinessName, mAddress, mRatingValue;
         final FoodHygieneAdapter mAdapter;
@@ -33,13 +37,16 @@ public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.
         @Override
         public void onClick(View view) {
             int mPosition = getLayoutPosition();
-            View xD = view;
-            Log.i("POS", String.valueOf(mPosition));
+            Context context = view.getContext();
+            Intent intent = new Intent(context, DetailActivity.class);
+            intent.putParcelableArrayListExtra(PASS_DATA, mResultsList.get(mPosition));
+            context.startActivity(intent);
         }
     }
 
     private final ArrayList<APIResultsModel> mResultsList;
     private final LayoutInflater mInflater;
+    public static final String PASS_DATA = "DATA";
 
     public FoodHygieneAdapter(Context context, ArrayList<APIResultsModel> resultsList) {
         mInflater = LayoutInflater.from(context);
@@ -48,8 +55,7 @@ public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.
 
     @NonNull
     @Override
-    public FoodHygieneHolder onCreateViewHolder
-            (@NonNull ViewGroup parent, int viewType) {
+    public FoodHygieneHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View mItemView = mInflater.inflate(R.layout.recycler_item, parent, false);
         return new FoodHygieneHolder(mItemView, this);
     }
