@@ -18,4 +18,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <include layout="@layout/fragment_detail" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

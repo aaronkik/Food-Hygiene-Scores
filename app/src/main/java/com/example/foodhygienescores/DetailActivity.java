@@ -2,6 +2,8 @@ package com.example.foodhygienescores;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +28,16 @@ public class DetailActivity extends AppCompatActivity {
 
 
         setTitle(mBusinessName);
+
+        if (savedInstanceState == null) {
+
+
+            DetailFragment detailFragment = DetailFragment.newInstance(mResult);
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.detail_container, detailFragment)
+                    .commit();
+
+        }
 
     }
 }

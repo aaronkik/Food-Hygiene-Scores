@@ -67,6 +67,26 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+//        String recyclerVisible = "recycler_visible";
+//        String introTextVisible = "intro_visible";
+//
+//        if (mRecyclerView.getVisibility() == View.VISIBLE) {
+//            outState.putBoolean(recyclerVisible, true);
+//
+//        } else {
+//            outState.putBoolean(recyclerVisible, false);
+//        }
+//
+//        if (mIntroText.getVisibility() == View.VISIBLE) {
+//            outState.putBoolean(introTextVisible, true);
+//        } else {
+//            outState.putBoolean(introTextVisible, false);
+//        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -117,14 +137,11 @@ public class MainActivity extends AppCompatActivity implements
     @NonNull
     @Override
     public Loader<ArrayList<APIResultsModel>> onCreateLoader(int id, @Nullable Bundle args) {
-
         String query = "";
         if (args != null) {
             query = args.getString("query");
         }
-
         return new ResultLoader(this, query);
-
     }
 
     @Override
@@ -136,6 +153,8 @@ public class MainActivity extends AppCompatActivity implements
         mProgressBar.setVisibility(View.GONE);
         mIntroText.setVisibility(View.INVISIBLE);
         mRecyclerView.setVisibility(View.VISIBLE);
+        // Scroll to top on new search
+        mRecyclerView.smoothScrollToPosition(0);
 
     }
 
