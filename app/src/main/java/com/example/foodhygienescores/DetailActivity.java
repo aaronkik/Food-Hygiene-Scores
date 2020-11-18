@@ -25,8 +25,7 @@ public class DetailActivity extends AppCompatActivity {
         mBusinessName = mResult.getBusinessName();
 
 
-        //getSupportActionBar().setTitle(mBusinessName);
-
+        setTitle(mBusinessName);
 
     }
 }
