@@ -22,7 +22,7 @@ public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.
     class FoodHygieneHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
 
-        public final TextView mBusinessName, mAddress, mRatingValue;
+        public final TextView mBusinessName, mRatingValue;
         final FoodHygieneAdapter mAdapter;
         public static final String PASS_DATA = "DATA";
 
@@ -30,7 +30,6 @@ public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.
 
             super(itemView);
             this.mBusinessName = itemView.findViewById(R.id.business_name);
-            this.mAddress = itemView.findViewById(R.id.address);
             this.mRatingValue = itemView.findViewById(R.id.rating_value);
             this.mAdapter = adapter;
             itemView.setOnClickListener(this::onClick);
@@ -68,26 +67,9 @@ public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.
 
         String businessName = resultsModel.getBusinessName();
 
-        List<String> addressList = new ArrayList<>();
-        addressList.add(resultsModel.getAddressLine1());
-        addressList.add(resultsModel.getAddressLine2());
-        addressList.add(resultsModel.getAddressLine3());
-        addressList.add(resultsModel.getAddressLine4());
-        addressList.add(resultsModel.getPostCode());
-
-        StringBuilder stringBuilder = new StringBuilder();
-        // Filter out any address lines with empty strings
-        for (String string : addressList) {
-            if (string.length() > 0) {
-                stringBuilder.append(string + "\n");
-            }
-        }
-
-        String address = stringBuilder.toString();
         String ratingValue = resultsModel.getRatingValue();
 
         holder.mBusinessName.setText(businessName);
-        holder.mAddress.setText(address);
         holder.mRatingValue.setText(ratingValue);
 
     }

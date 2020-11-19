@@ -5,4 +5,6 @@
     <dimen name="default_padding">8dp</dimen>
     <dimen name="bottom_progressbar_margin">-6dp</dimen>
     <dimen name="button_icon_width">40dp</dimen>
+    <dimen name="card_row_bottom_padding">2dp</dimen>
+    <dimen name="card_row_top_padding">2dp</dimen>
 </resources>

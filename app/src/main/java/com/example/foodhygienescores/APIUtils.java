@@ -55,18 +55,24 @@ public class APIUtils {
                     JSONObject jsonObject = (JSONObject) jsonArray.get(i);
                     // Skip empty objects if present
                     if (jsonObject != null) {
-                        APIResultsModel resultsModel = new APIResultsModel(
-                                jsonObject.getString("FHRSID"),
-                                jsonObject.getString("BusinessName"),
-                                jsonObject.getString("AddressLine1"),
-                                jsonObject.getString("AddressLine2"),
-                                jsonObject.getString("AddressLine3"),
-                                jsonObject.getString("AddressLine4"),
-                                jsonObject.getString("PostCode"),
-                                jsonObject.getString("RatingValue"),
-                                jsonObject.getJSONObject("geocode").getString("longitude"),
-                                jsonObject.getJSONObject("geocode").getString("latitude")
-                        );
+                        APIResultsModel resultsModel = new APIResultsModel();
+                        resultsModel.setFHRSID(jsonObject.getString("FHRSID"));
+                        resultsModel.setBusinessName(jsonObject.getString("BusinessName"));
+                        resultsModel.setAddressLine1(jsonObject.getString("AddressLine1"));
+                        resultsModel.setAddressLine2(jsonObject.getString("AddressLine2"));
+                        resultsModel.setAddressLine3(jsonObject.getString("AddressLine3"));
+                        resultsModel.setAddressLine4(jsonObject.getString("AddressLine4"));
+                        resultsModel.setPostCode(jsonObject.getString("PostCode"));
+                        resultsModel.setRatingValue(jsonObject.getString("RatingValue"));
+                        resultsModel.setAuthorityName(jsonObject.getString("LocalAuthorityName"));
+                        resultsModel.setAuthorityWebsite(jsonObject.getString("LocalAuthorityWebSite"));
+                        resultsModel.setAuthorityEmail(jsonObject.getString("LocalAuthorityEmailAddress"));
+                        resultsModel.setScoreHygiene(jsonObject.getJSONObject("scores").optInt("Hygiene", -1));
+                        resultsModel.setScoreStructural(jsonObject.getJSONObject("scores").optInt("Structural", -1));
+                        resultsModel.setScoreConInMan(jsonObject.getJSONObject("scores").optInt("ConfidenceInManagement", -1));
+                        resultsModel.setLongitude(jsonObject.getJSONObject("geocode").getString("longitude"));
+                        resultsModel.setLatitude(jsonObject.getJSONObject("geocode").getString("latitude"));
+                        resultsModel.setDistance(jsonObject.optDouble("Distance", Double.NaN));
                         resultsList.add(resultsModel);
                     }
                 }

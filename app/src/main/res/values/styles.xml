@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="card_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/default_margin</item>
+        <item name="cardElevation">@dimen/card_elevation</item>
+    </style>
+
+    <style name="card_row">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingBottom">@dimen/card_row_bottom_padding</item>
+        <item name="android:paddingTop">@dimen/card_row_top_padding</item>
+    </style>
+
+    <style name="card_layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_margin">@dimen/default_margin</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+</resources>

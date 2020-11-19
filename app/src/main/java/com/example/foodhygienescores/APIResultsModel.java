@@ -3,6 +3,7 @@ package com.example.foodhygienescores;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,12 +11,12 @@ import java.util.stream.Stream;
 
 public class APIResultsModel implements Serializable {
 
-    /*
-    Variable names based on the API response:
-
-    https://api.ratings.food.gov.uk/Help/Api/GET-Establishments_name_address_longitude_latitude
-    _maxDistanceLimit_businessTypeId_schemeTypeKey_ratingKey_ratingOperatorKey_localAuthorityId
-    _countryId_sortOptionKey_pageNumber_pageSize
+    /**
+     * Variable names based on the API response
+     * <p>
+     * https://api.ratings.food.gov.uk/Help/Api/GET-Establishments_name_address_longitude_latitude
+     * _maxDistanceLimit_businessTypeId_schemeTypeKey_ratingKey_ratingOperatorKey_localAuthorityId
+     * _countryId_sortOptionKey_pageNumber_pageSize
      */
 
     private String FHRSID;
@@ -26,15 +27,19 @@ public class APIResultsModel implements Serializable {
     private String addressLine4;
     private String postCode;
     private String ratingValue;
+    private String authorityName;
+    private String authorityWebsite;
+    private String authorityEmail;
+    private int scoreHygiene;
+    private int scoreStructural;
+    private int scoreConInMan;
     private String longitude;
     private String latitude;
+    private double distance;
 
+    public APIResultsModel() {
 
-    public APIResultsModel(String fhrsid, String businessName, String addressLine1,
-                           String addressLine2, String addressLine3, String addressLine4,
-                           String postCode, String ratingValue, String longitude, String latitude) {
-
-        this.FHRSID = fhrsid;
+        this.FHRSID = FHRSID;
         this.businessName = businessName;
         this.addressLine1 = addressLine1;
         this.addressLine2 = addressLine2;
@@ -42,9 +47,15 @@ public class APIResultsModel implements Serializable {
         this.addressLine4 = addressLine4;
         this.postCode = postCode;
         this.ratingValue = ratingValue;
+        this.authorityName = authorityName;
+        this.authorityWebsite = authorityWebsite;
+        this.authorityEmail = authorityEmail;
+        this.scoreHygiene = scoreHygiene;
+        this.scoreStructural = scoreStructural;
+        this.scoreConInMan = scoreConInMan;
         this.longitude = longitude;
         this.latitude = latitude;
-
+        this.distance = distance;
     }
 
     public String getFHRSID() {
@@ -111,6 +122,54 @@ public class APIResultsModel implements Serializable {
         this.ratingValue = ratingValue;
     }
 
+    public String getAuthorityName() {
+        return authorityName;
+    }
+
+    public void setAuthorityName(String authorityName) {
+        this.authorityName = authorityName;
+    }
+
+    public String getAuthorityWebsite() {
+        return authorityWebsite;
+    }
+
+    public void setAuthorityWebsite(String authorityWebsite) {
+        this.authorityWebsite = authorityWebsite;
+    }
+
+    public String getAuthorityEmail() {
+        return authorityEmail;
+    }
+
+    public void setAuthorityEmail(String authorityEmail) {
+        this.authorityEmail = authorityEmail;
+    }
+
+    public int getScoreHygiene() {
+        return scoreHygiene;
+    }
+
+    public void setScoreHygiene(int scoreHygiene) {
+        this.scoreHygiene = scoreHygiene;
+    }
+
+    public int getScoreStructural() {
+        return scoreStructural;
+    }
+
+    public void setScoreStructural(int scoreStructural) {
+        this.scoreStructural = scoreStructural;
+    }
+
+    public int getScoreConInMan() {
+        return scoreConInMan;
+    }
+
+    public void setScoreConInMan(int scoreConInMan) {
+        this.scoreConInMan = scoreConInMan;
+    }
+
     public String getLongitude() {
         return longitude;
     }
@@ -125,6 +184,14 @@ public class APIResultsModel implements Serializable {
 
     public void setLatitude(String latitude) {
         this.latitude = latitude;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
 }
 
