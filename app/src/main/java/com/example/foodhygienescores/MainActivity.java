@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,6 +24,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -38,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements
     private FoodHygieneAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private TextView mIntroText;
-    private Boolean mWideScreen;
+    public static boolean isWideScreen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,10 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        // Check if wide screen
+        if (findViewById(R.id.wide_layout) != null) {
+            isWideScreen = true;
+        }
         mResultsList = new ArrayList<>();
         mProgressBar = findViewById(R.id.progress_bar);
         mIntroText = findViewById(R.id.textView);
@@ -151,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements
         mResultsList.addAll(data);
         mAdapter.notifyDataSetChanged();
         mProgressBar.setVisibility(View.GONE);
-        mIntroText.setVisibility(View.INVISIBLE);
+        mIntroText.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.VISIBLE);
         // Scroll to top on new search
         mRecyclerView.smoothScrollToPosition(0);

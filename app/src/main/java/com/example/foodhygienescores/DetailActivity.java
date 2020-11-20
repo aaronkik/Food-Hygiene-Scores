@@ -16,19 +16,13 @@ public class DetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         APIResultsModel mResult = (APIResultsModel)
                 intent.getSerializableExtra(FoodHygieneAdapter.FoodHygieneHolder.PASS_DATA);
-
         mBusinessName = mResult.getBusinessName();
-
         setTitle(mBusinessName);
-
         if (savedInstanceState == null) {
-
             DetailFragment detailFragment = DetailFragment.newInstance(mResult);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.detail_container, detailFragment)
                     .commit();
-
         }
-
     }
 }

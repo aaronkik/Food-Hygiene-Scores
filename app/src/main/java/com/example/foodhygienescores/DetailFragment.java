@@ -37,7 +37,7 @@ public class DetailFragment extends Fragment {
     private TextView mBusinessName, mAddress, mRatingValue, mHygiene, mStructural,
             mConInMan, mAuthorityName, mAuthorityWebsite, mAuthorityEmail;
     private APIResultsModel mResultDetail;
-
+    protected boolean isWideScreen = MainActivity.isWideScreen;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -60,10 +60,11 @@ public class DetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
 
         if (getArguments() != null) {
             mResultDetail = (APIResultsModel) getArguments().getSerializable(RESULT_DETAIL);
@@ -89,13 +90,11 @@ public class DetailFragment extends Fragment {
         } else {
             mHygiene.setText(R.string.score_unavailable);
         }
-
         if (mResultDetail.getScoreStructural() >= 0) {
             mStructural.setText(String.valueOf(mResultDetail.getScoreStructural()));
         } else {
             mStructural.setText(R.string.score_unavailable);
         }
-
         if (mResultDetail.getScoreConInMan() >= 0) {
             mConInMan.setText(String.valueOf(mResultDetail.getScoreConInMan()));
         } else {
@@ -106,6 +105,10 @@ public class DetailFragment extends Fragment {
         mAuthorityWebsite.setText(mResultDetail.getAuthorityWebsite());
         mAuthorityEmail.setText(mResultDetail.getAuthorityEmail());
 
+        view.findViewById(R.id.fragment).setVisibility(View.VISIBLE);
+        if (isWideScreen) {
+            view.findViewById(R.id.fragmentText).setVisibility(View.GONE);
+        }
         return view;
     }
 
@@ -128,7 +131,6 @@ public class DetailFragment extends Fragment {
                 stringBuilder.append(string + "\n");
             }
         }
-
         return stringBuilder.toString();
     }
 }
