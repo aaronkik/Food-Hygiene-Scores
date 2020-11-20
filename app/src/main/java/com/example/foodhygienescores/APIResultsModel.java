@@ -1,13 +1,6 @@
 package com.example.foodhygienescores;
 
-import android.os.Parcelable;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.stream.Stream;
 
 public class APIResultsModel implements Serializable {
 

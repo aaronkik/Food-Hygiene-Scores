@@ -1,6 +1,10 @@
 package com.example.foodhygienescores;
 
 import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+
+import androidx.annotation.RequiresApi;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,6 +17,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class APIUtils {
     // Base URL for API.
@@ -21,22 +26,44 @@ public class APIUtils {
     public static final String API_VERSION = "2";
     // Query parameters for the search string.
     private static final String QUERY_PARAM_ADDRESS = "address";
+    private static final String QUERY_PARAM_LONGITUDE = "longitude";
+    private static final String QUERY_PARAM_LATITUDE = "latitude";
     private static final String QUERY_PARAM_DISTANCE = "maxDistanceLimit";
+    private static final String QUERY_PARAM_SORT = "sortOptionKey";
+    private static final String SORT_BY_DESC = "descending";
     // Parameter that limits search results based on address.
-    private static final String MAX_DISTANCE_MILES = "0.5";
+    private static final String MAX_DISTANCE_MILES = "1";
 
-    static ArrayList<APIResultsModel> getFoodHygieneData(String queryString) {
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    static ArrayList<APIResultsModel> getFoodHygieneData(Bundle bundle) {
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
+        Uri builtURI = null;
         ArrayList<APIResultsModel> resultsList = new ArrayList<>();
+        String query = "";
+        String userLongitude = "";
+        String userLatitude = "";
+
+        if (bundle.get("query") != null) {
+            query = bundle.getString("query");
+            builtURI = Uri.parse(API_URL).buildUpon()
+                    .appendQueryParameter(QUERY_PARAM_ADDRESS, query)
+                    .build();
+        } else {
+            UserLocation userLocation = (UserLocation) bundle.getSerializable("location");
+            userLongitude = userLocation.getUserLongitude();
+            userLatitude = userLocation.getUserLatitude();
+            builtURI = Uri.parse(API_URL).buildUpon()
+                    .appendQueryParameter(QUERY_PARAM_LONGITUDE, userLongitude)
+                    .appendQueryParameter(QUERY_PARAM_LATITUDE, userLatitude)
+                    .appendQueryParameter(QUERY_PARAM_DISTANCE, MAX_DISTANCE_MILES)
+                    .appendQueryParameter(QUERY_PARAM_SORT, SORT_BY_DESC)
+                    .build();
+        }
 
         try {
 
-            Uri builtURI = Uri.parse(API_URL).buildUpon()
-                    .appendQueryParameter(QUERY_PARAM_ADDRESS, queryString)
-                    .appendQueryParameter(QUERY_PARAM_DISTANCE, MAX_DISTANCE_MILES)
-                    .build();
             URL requestURL = new URL(builtURI.toString());
 
             urlConnection = (HttpURLConnection) requestURL.openConnection();
@@ -64,24 +91,30 @@ public class APIUtils {
                         resultsModel.setAddressLine4(jsonObject.getString("AddressLine4"));
                         resultsModel.setPostCode(jsonObject.getString("PostCode"));
                         resultsModel.setRatingValue(jsonObject.getString("RatingValue"));
-                        resultsModel.setAuthorityName(jsonObject.getString("LocalAuthorityName"));
-                        resultsModel.setAuthorityWebsite(jsonObject.getString("LocalAuthorityWebSite"));
-                        resultsModel.setAuthorityEmail(jsonObject.getString("LocalAuthorityEmailAddress"));
-                        resultsModel.setScoreHygiene(jsonObject.getJSONObject("scores").optInt("Hygiene", -1));
-                        resultsModel.setScoreStructural(jsonObject.getJSONObject("scores").optInt("Structural", -1));
-                        resultsModel.setScoreConInMan(jsonObject.getJSONObject("scores").optInt("ConfidenceInManagement", -1));
-                        resultsModel.setLongitude(jsonObject.getJSONObject("geocode").getString("longitude"));
-                        resultsModel.setLatitude(jsonObject.getJSONObject("geocode").getString("latitude"));
-                        resultsModel.setDistance(jsonObject.optDouble("Distance", Double.NaN));
+                        resultsModel.setAuthorityName(jsonObject.getString
+                                ("LocalAuthorityName"));
+                        resultsModel.setAuthorityWebsite(jsonObject.getString
+                                ("LocalAuthorityWebSite"));
+                        resultsModel.setAuthorityEmail(jsonObject.getString
+                                ("LocalAuthorityEmailAddress"));
+                        resultsModel.setScoreHygiene(jsonObject.getJSONObject
+                                ("scores").optInt("Hygiene", -1));
+                        resultsModel.setScoreStructural(jsonObject.getJSONObject
+                                ("scores").optInt("Structural", -1));
+                        resultsModel.setScoreConInMan(jsonObject.getJSONObject
+                                ("scores").optInt("ConfidenceInManagement", -1));
+                        resultsModel.setLongitude(jsonObject.getJSONObject
+                                ("geocode").getString("longitude"));
+                        resultsModel.setLatitude(jsonObject.getJSONObject
+                                ("geocode").getString("latitude"));
+                        resultsModel.setDistance(jsonObject.optDouble
+                                ("Distance", Double.NaN));
                         resultsList.add(resultsModel);
                     }
                 }
             }
-
         } catch (IOException | JSONException e) {
-
             e.printStackTrace();
-
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -94,8 +127,10 @@ public class APIUtils {
                 }
             }
         }
-
+        // Sort by Distance if location is present
+        if (bundle.get("location") != null) {
+            resultsList.sort(Comparator.comparing(APIResultsModel::getDistance));
+        }
         return resultsList;
-
     }
 }

@@ -24,4 +24,8 @@
     <string name="date_error">Error getting date.</string>
     <string name="view_more">Select a business to view more!</string>
     <string name="map_error">Unable to open map.</string>
+    <string name="location_disabled">Location Permissions Disabled.</string>
+    <string name="location_unavailable">Unable to get location.</string>
+    <string name="location_icon">Location Icon</string>
+    <string name="question_mark">\?</string>
 </resources>

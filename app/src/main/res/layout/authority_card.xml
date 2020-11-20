@@ -38,7 +38,8 @@
                 android:id="@+id/authority_website"
                 style="?attr/textAppearanceBody2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:autoLink="web" />
 
         </LinearLayout>
 
@@ -54,7 +55,8 @@
                 android:id="@+id/authority_email"
                 style="?attr/textAppearanceBody2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:autoLink="email" />
 
         </LinearLayout>
 

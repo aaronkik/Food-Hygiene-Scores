@@ -1,30 +1,21 @@
 package com.example.foodhygienescores;
 
-import android.os.Build;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
-import android.text.format.DateFormat;
-import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.DateTimeException;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,7 +27,9 @@ public class DetailFragment extends Fragment {
     private static final String RESULT_DETAIL = FoodHygieneAdapter.FoodHygieneHolder.PASS_DATA;
     private TextView mBusinessName, mAddress, mRatingValue, mHygiene, mStructural,
             mConInMan, mAuthorityName, mAuthorityWebsite, mAuthorityEmail;
+    private Button mOpenMapButton;
     private APIResultsModel mResultDetail;
+    private String mLongitude, mLatitude;
     protected boolean isWideScreen = MainActivity.isWideScreen;
 
     public DetailFragment() {
@@ -59,7 +52,6 @@ public class DetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -109,6 +101,23 @@ public class DetailFragment extends Fragment {
         if (isWideScreen) {
             container.findViewById(R.id.fragmentText).setVisibility(View.GONE);
         }
+
+        mOpenMapButton = (Button) view.findViewById(R.id.button_show_map);
+        mLongitude = mResultDetail.getLongitude();
+        mLatitude = mResultDetail.getLatitude();
+        mOpenMapButton.setOnClickListener(new View.OnClickListener() {
+            // https://developers.google.com/maps/documentation/urls/android-intents
+            @Override
+            public void onClick(View view) {
+                Uri mapQuery = Uri.parse("geo:" + mLatitude + "," + mLongitude + "?z=19");
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, mapQuery);
+                if (mapIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivity(mapIntent);
+                } else {
+                    Toast.makeText(container.getContext(), R.string.map_error, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         return view;
     }
