@@ -29,7 +29,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/button_show_on_map"
-                app:icon="@drawable/ic_action_open" />
+                app:icon="@drawable/ic_action_open"
+                android:onClick="openMap" />
 
         </LinearLayout>
 

@@ -168,4 +168,9 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLoaderReset(@NonNull Loader<ArrayList<APIResultsModel>> loader) {
     }
+
+    public void openMap(View view) {
+        Log.d("openMAP", "XDXDXDXD");
+
+    }
 }

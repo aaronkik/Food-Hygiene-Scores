@@ -65,7 +65,6 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
         if (getArguments() != null) {
             mResultDetail = (APIResultsModel) getArguments().getSerializable(RESULT_DETAIL);
         }
@@ -106,9 +105,11 @@ public class DetailFragment extends Fragment {
         mAuthorityEmail.setText(mResultDetail.getAuthorityEmail());
 
         view.findViewById(R.id.fragment).setVisibility(View.VISIBLE);
+
         if (isWideScreen) {
-            view.findViewById(R.id.fragmentText).setVisibility(View.GONE);
+            container.findViewById(R.id.fragmentText).setVisibility(View.GONE);
         }
+
         return view;
     }
 
@@ -133,4 +134,5 @@ public class DetailFragment extends Fragment {
         }
         return stringBuilder.toString();
     }
+
 }

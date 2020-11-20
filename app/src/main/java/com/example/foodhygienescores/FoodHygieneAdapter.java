@@ -47,7 +47,7 @@ public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.
                 DetailFragment detailFragment = DetailFragment.newInstance(resultList);
                 FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.detail_container, detailFragment)
+                        .replace(R.id.fragment_layout, detailFragment)
                         .addToBackStack(null)
                         .commit();
             } else {
