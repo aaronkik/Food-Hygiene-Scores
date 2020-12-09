@@ -12,7 +12,7 @@ public class APIResultsModel implements Serializable {
      * _countryId_sortOptionKey_pageNumber_pageSize
      */
 
-    private String FHRSID;
+    private int FHRSID;
     private String businessName;
     private String addressLine1;
     private String addressLine2;
@@ -51,11 +51,11 @@ public class APIResultsModel implements Serializable {
         this.distance = distance;
     }
 
-    public String getFHRSID() {
+    public int getFHRSID() {
         return FHRSID;
     }
 
-    public void setFHRSID(String FHRSID) {
+    public void setFHRSID(int FHRSID) {
         this.FHRSID = FHRSID;
     }
 

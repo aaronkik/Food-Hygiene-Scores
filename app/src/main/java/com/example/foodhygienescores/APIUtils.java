@@ -87,7 +87,7 @@ public class APIUtils {
                     // Skip empty objects if present
                     if (jsonObject != null) {
                         APIResultsModel resultsModel = new APIResultsModel();
-                        resultsModel.setFHRSID(jsonObject.getString("FHRSID"));
+                        resultsModel.setFHRSID(jsonObject.getInt("FHRSID"));
                         resultsModel.setBusinessName(jsonObject.getString("BusinessName"));
                         resultsModel.setAddressLine1(jsonObject.getString("AddressLine1"));
                         resultsModel.setAddressLine2(jsonObject.getString("AddressLine2"));
