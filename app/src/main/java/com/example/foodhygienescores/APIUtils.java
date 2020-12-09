@@ -30,11 +30,13 @@ public class APIUtils {
     private static final String QUERY_PARAM_LATITUDE = "latitude";
     private static final String QUERY_PARAM_DISTANCE = "maxDistanceLimit";
     private static final String QUERY_PARAM_SORT = "sortOptionKey";
+    private static final String QUERY_PARAM_PAGE_SIZE = "pageSize";
     private static final String SORT_BY_DESC = "descending";
     // Parameter that limits search results based on address.
     private static final String MAX_DISTANCE_MILES = "1";
+    // Parameter limits pageSize to 500 results
+    private static final String MAX_PAGE_SIZE = "500";
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     static ArrayList<APIResultsModel> getFoodHygieneData(Bundle bundle) {
 
         HttpURLConnection urlConnection = null;
@@ -49,6 +51,7 @@ public class APIUtils {
             query = bundle.getString("query");
             builtURI = Uri.parse(API_URL).buildUpon()
                     .appendQueryParameter(QUERY_PARAM_ADDRESS, query)
+                    .appendQueryParameter(QUERY_PARAM_PAGE_SIZE, MAX_PAGE_SIZE)
                     .build();
         } else {
             UserLocation userLocation = (UserLocation) bundle.getSerializable("location");
@@ -59,6 +62,7 @@ public class APIUtils {
                     .appendQueryParameter(QUERY_PARAM_LATITUDE, userLatitude)
                     .appendQueryParameter(QUERY_PARAM_DISTANCE, MAX_DISTANCE_MILES)
                     .appendQueryParameter(QUERY_PARAM_SORT, SORT_BY_DESC)
+                    .appendQueryParameter(QUERY_PARAM_PAGE_SIZE, MAX_PAGE_SIZE)
                     .build();
         }
 

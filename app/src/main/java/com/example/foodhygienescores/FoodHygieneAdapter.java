@@ -21,6 +21,8 @@ public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.
     class FoodHygieneHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public static final String PASS_DATA = "DATA";
+        public static final String PASS_INDEX = "INDEX";
+        private int mAdapterPosition;
         private final TextView mBusinessName, mRatingValue, mDistance;
         private final ImageView mLocationPin;
         final FoodHygieneAdapter mAdapter;
@@ -28,17 +30,18 @@ public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.
 
         public FoodHygieneHolder(View itemView, FoodHygieneAdapter adapter) {
             super(itemView);
-            this.mBusinessName = (TextView) itemView.findViewById(R.id.business_name);
-            this.mRatingValue = (TextView) itemView.findViewById(R.id.rating_value);
-            this.mDistance = (TextView) itemView.findViewById(R.id.distance);
-            this.mLocationPin = (ImageView) itemView.findViewById(R.id.location_pin);
+            this.mBusinessName = itemView.findViewById(R.id.business_name);
+            this.mRatingValue = itemView.findViewById(R.id.rating_value);
+            this.mDistance = itemView.findViewById(R.id.distance);
+            this.mLocationPin = itemView.findViewById(R.id.location_pin);
             this.mAdapter = adapter;
             itemView.setOnClickListener(this::onClick);
         }
 
         @Override
         public void onClick(View view) {
-            APIResultsModel resultList = mResultsList.get(getAdapterPosition());
+            mAdapterPosition = getAdapterPosition();
+            APIResultsModel resultList = mResultsList.get(mAdapterPosition);
             Context context = view.getContext();
             // If the wide layout exists the device is a tablet
             if (isWideScreen) {
@@ -50,7 +53,8 @@ public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.
                         .commit();
             } else {
                 Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra(PASS_DATA, resultList);
+                intent.putExtra(PASS_DATA, mResultsList);
+                intent.putExtra(PASS_INDEX, mAdapterPosition);
                 context.startActivity(intent);
             }
         }

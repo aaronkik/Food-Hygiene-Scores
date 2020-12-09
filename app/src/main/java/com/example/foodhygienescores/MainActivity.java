@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Check if wide screen
         if (findViewById(R.id.wide_layout) != null) {
@@ -62,9 +62,9 @@ public class MainActivity extends AppCompatActivity implements
         }
         mFusedLocation = LocationServices.getFusedLocationProviderClient(this);
         mResultsList = new ArrayList<>();
-        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
-        mIntroText = (TextView) findViewById(R.id.textView);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        mProgressBar = findViewById(R.id.progress_bar);
+        mIntroText = findViewById(R.id.textView);
+        mRecyclerView = findViewById(R.id.recyclerview);
         mAdapter = new FoodHygieneAdapter(this, mResultsList);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements
             getSupportLoaderManager().initLoader(0, null, this);
         }
 
-        mFabLocation = (FloatingActionButton) findViewById(R.id.fab_location);
+        mFabLocation = findViewById(R.id.fab_location);
         mFabLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
