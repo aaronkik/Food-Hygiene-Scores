@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -114,7 +113,7 @@ public class DetailFragment extends Fragment {
                 if (mapIntent.resolveActivity(getActivity().getPackageManager()) != null) {
                     startActivity(mapIntent);
                 } else {
-                    Toast.makeText(container.getContext(), R.string.map_error, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.map_error, Toast.LENGTH_SHORT).show();
                 }
             }
         });
