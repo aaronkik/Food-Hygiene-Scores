@@ -8,8 +8,11 @@ import androidx.annotation.Nullable;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String TABLE_NAME = "favourites";
+
+    private static final String DB_NAME = "food_hygiene_db";
     private static final int DB_VERSION = 1;
+
+    private static final String TABLE_NAME = "favourites";
     private static final String CREATE_TABLE =
             "CREATE TABLE IF NOT EXISTS " +
                     TABLE_NAME +
@@ -31,7 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     "lat VARCHAR NOT NULL);";
 
     public DatabaseHelper(@Nullable Context context) {
-        super(context, TABLE_NAME, null, DB_VERSION);
+        super(context, DB_NAME, null, DB_VERSION);
     }
 
     @Override
@@ -41,5 +44,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+        if (i != i1) {
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+            onCreate(sqLiteDatabase);
+        }
     }
 }
