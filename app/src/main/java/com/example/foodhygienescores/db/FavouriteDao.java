@@ -7,18 +7,17 @@ import androidx.room.Query;
 
 import com.example.foodhygienescores.APIResultsModel;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Dao
 public interface FavouriteDao {
+
+    @Query("SELECT * FROM favourites")
+    LiveData<List<Favourite>> getAllFavourites();
 
     @Insert
     void insert(Favourite favourite);
 
     @Query("DELETE FROM favourites")
     void deleteAllFavourites();
-
-    @Query("SELECT * FROM favourites")
-    LiveData<ArrayList<APIResultsModel>> getAllFavourites();
-
 }

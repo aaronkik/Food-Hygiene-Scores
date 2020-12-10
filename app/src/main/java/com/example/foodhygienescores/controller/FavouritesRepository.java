@@ -10,11 +10,11 @@ import com.example.foodhygienescores.db.Favourite;
 import com.example.foodhygienescores.db.FavouriteDao;
 import com.example.foodhygienescores.db.FavouriteRoomDatabase;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class FavouritesRepository {
     private FavouriteDao mFavouriteDao;
-    private LiveData<ArrayList<APIResultsModel>> mResultsList;
+    private LiveData<List<Favourite>> mResultsList;
 
     public FavouritesRepository(Application application) {
         FavouriteRoomDatabase db = FavouriteRoomDatabase.getDatabase(application);
@@ -22,7 +22,7 @@ public class FavouritesRepository {
         mResultsList = mFavouriteDao.getAllFavourites();
     }
 
-    public LiveData<ArrayList<APIResultsModel>> getAllFavourites() {
+    public LiveData<List<Favourite>> getAllFavourites() {
         return mResultsList;
     }
 
@@ -44,6 +44,5 @@ public class FavouritesRepository {
             return null;
         }
     }
-
 
 }

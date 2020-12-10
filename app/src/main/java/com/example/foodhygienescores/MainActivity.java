@@ -3,6 +3,7 @@ package com.example.foodhygienescores;
 import android.Manifest;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 
 import android.location.Location;
@@ -122,15 +123,16 @@ public class MainActivity extends AppCompatActivity implements
                         return false;
                     }
                 });
+                return true;
             case R.id.favourites:
-                Toast.makeText(this, R.string.favourites, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, FavouriteActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.action_settings:
-                Toast.makeText(this, R.string.favourites, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.action_settings, Toast.LENGTH_SHORT).show();
                 return true;
         }
         return super.onOptionsItemSelected(item);
-
     }
 
     // Custom method
@@ -156,7 +158,6 @@ public class MainActivity extends AppCompatActivity implements
         mProgressBar.setVisibility(View.GONE);
         mIntroText.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.VISIBLE);
-
     }
 
     @Override
@@ -212,6 +213,5 @@ public class MainActivity extends AppCompatActivity implements
                 }
                 break;
         }
-
     }
 }

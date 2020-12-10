@@ -63,7 +63,6 @@ public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.
     private final ArrayList<APIResultsModel> mResultsList;
     private final LayoutInflater mInflater;
 
-
     public FoodHygieneAdapter(Context context, ArrayList<APIResultsModel> resultsList) {
         mInflater = LayoutInflater.from(context);
         this.mResultsList = resultsList;

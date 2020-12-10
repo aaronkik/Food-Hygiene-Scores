@@ -9,11 +9,11 @@ import com.example.foodhygienescores.APIResultsModel;
 import com.example.foodhygienescores.controller.FavouritesRepository;
 import com.example.foodhygienescores.db.Favourite;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class FavouritesViewModel extends AndroidViewModel {
     private FavouritesRepository mRepository;
-    private LiveData<ArrayList<APIResultsModel>> mResultsList;
+    private LiveData<List<Favourite>> mResultsList;
 
     public FavouritesViewModel(Application application) {
         super(application);
@@ -21,7 +21,7 @@ public class FavouritesViewModel extends AndroidViewModel {
         mResultsList = mRepository.getAllFavourites();
     }
 
-    LiveData<ArrayList<APIResultsModel>> getAllFavourites() {
+    LiveData<List<Favourite>> getAllFavourites() {
         return mResultsList;
     }
 
