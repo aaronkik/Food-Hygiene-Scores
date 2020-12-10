@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragment"
-    android:visibility="gone"
-    android:layout_marginBottom="?attr/actionBarSize"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginBottom="?attr/actionBarSize"
+    android:visibility="gone">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -27,6 +27,16 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_margin" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_favourite"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:text="@string/favourite"
+                app:icon="@drawable/ic_favorite" />
+
             <include layout="@layout/business_address_card" />
 
             <include layout="@layout/scores_card" />
@@ -36,17 +46,6 @@
         </LinearLayout>
 
     </ScrollView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_favourite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:contentDescription="@string/favourite_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_favorite" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

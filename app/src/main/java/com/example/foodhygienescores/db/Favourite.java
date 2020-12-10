@@ -27,7 +27,6 @@ public class Favourite {
     private int score_con_in_man;
     private String long_;
     private String lat;
-    private double distance;
 
     public Favourite(int mFHRSID,
                      String business_name,
@@ -44,8 +43,7 @@ public class Favourite {
                      int score_structural,
                      int score_con_in_man,
                      String long_,
-                     String lat,
-                     double distance) {
+                     String lat) {
 
         this.mFHRSID = mFHRSID;
         this.business_name = business_name;
@@ -63,7 +61,6 @@ public class Favourite {
         this.score_con_in_man = score_con_in_man;
         this.long_ = long_;
         this.lat = lat;
-        this.distance = distance;
     }
 
     public int getFHRSID() {
@@ -128,9 +125,5 @@ public class Favourite {
 
     public String getLat() {
         return lat;
-    }
-
-    public double getDistance() {
-        return distance;
     }
 }
