@@ -96,10 +96,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here.
-
         switch (item.getItemId()) {
-            case R.id.action_settings:
-                return true;
             case R.id.search:
                 SearchManager searchManager = (SearchManager)
                         getSystemService(Context.SEARCH_SERVICE);
@@ -122,12 +119,16 @@ public class MainActivity extends AppCompatActivity implements
 
                     @Override
                     public boolean onQueryTextChange(String newText) {
-                        //Required but not in use.
                         return false;
                     }
                 });
+            case R.id.favourites:
+                Toast.makeText(this, R.string.favourites, Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_settings:
+                Toast.makeText(this, R.string.favourites, Toast.LENGTH_SHORT).show();
+                return true;
         }
-
         return super.onOptionsItemSelected(item);
 
     }
