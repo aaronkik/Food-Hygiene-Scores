@@ -14,7 +14,8 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import java.io.Serializable;
+import java.util.List;
 
 public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.FoodHygieneHolder> {
 
@@ -22,7 +23,6 @@ public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.
 
         public static final String PASS_DATA = "DATA";
         public static final String PASS_INDEX = "INDEX";
-        private int mAdapterPosition;
         private final TextView mBusinessName, mRatingValue, mDistance;
         private final ImageView mLocationPin;
         final FoodHygieneAdapter mAdapter;
@@ -40,7 +40,7 @@ public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.
 
         @Override
         public void onClick(View view) {
-            mAdapterPosition = getAdapterPosition();
+            int mAdapterPosition = getAdapterPosition();
             APIResultsModel resultList = mResultsList.get(mAdapterPosition);
             Context context = view.getContext();
             // If the wide layout exists the device is a tablet
@@ -53,17 +53,17 @@ public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.
                         .commit();
             } else {
                 Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra(PASS_DATA, mResultsList);
+                intent.putExtra(PASS_DATA, (Serializable) mResultsList);
                 intent.putExtra(PASS_INDEX, mAdapterPosition);
                 context.startActivity(intent);
             }
         }
     }
 
-    private final ArrayList<APIResultsModel> mResultsList;
+    private final List<APIResultsModel> mResultsList;
     private final LayoutInflater mInflater;
 
-    public FoodHygieneAdapter(Context context, ArrayList<APIResultsModel> resultsList) {
+    public FoodHygieneAdapter(Context context, List<APIResultsModel> resultsList) {
         mInflater = LayoutInflater.from(context);
         this.mResultsList = resultsList;
     }
@@ -104,7 +104,10 @@ public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.
 
     @Override
     public int getItemCount() {
-        return mResultsList.size();
+        if (mResultsList != null) {
+            return mResultsList.size();
+        }
+        return 0;
     }
 
     private boolean isNumber(String string) {
@@ -124,6 +127,5 @@ public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.
             return true;
         }
     }
-
 
 }

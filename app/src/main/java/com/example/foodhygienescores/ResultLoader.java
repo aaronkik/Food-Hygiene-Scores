@@ -7,9 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.loader.content.AsyncTaskLoader;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class ResultLoader extends AsyncTaskLoader<ArrayList<APIResultsModel>> {
+public class ResultLoader extends AsyncTaskLoader<List<APIResultsModel>> {
     private Bundle bundle;
 
     public ResultLoader(@NonNull Context context, Bundle bundle) {
@@ -19,7 +19,7 @@ public class ResultLoader extends AsyncTaskLoader<ArrayList<APIResultsModel>> {
 
     @Nullable
     @Override
-    public ArrayList<APIResultsModel> loadInBackground() {
+    public List<APIResultsModel> loadInBackground() {
         return APIUtils.getFoodHygieneData(bundle);
     }
 

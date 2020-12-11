@@ -21,7 +21,7 @@ public class FavouritesViewModel extends AndroidViewModel {
         mResultsList = mRepository.getAllFavourites();
     }
 
-    LiveData<List<Favourite>> getAllFavourites() {
+    public LiveData<List<Favourite>> getAllFavourites() {
         return mResultsList;
     }
 

@@ -36,14 +36,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements
-        LoaderManager.LoaderCallbacks<ArrayList<APIResultsModel>> {
+        LoaderManager.LoaderCallbacks<List<APIResultsModel>> {
 
     private static final int REQUEST_LOCATION = 1;
     private FusedLocationProviderClient mFusedLocation;
     private Location mLocation;
-    private ArrayList<APIResultsModel> mResultsList;
+    private List<APIResultsModel> mResultsList;
     private ProgressBar mProgressBar;
     private FloatingActionButton mFabLocation;
     private FoodHygieneAdapter mAdapter;
@@ -144,13 +145,13 @@ public class MainActivity extends AppCompatActivity implements
     // Callback methods to the ResultsLoader
     @NonNull
     @Override
-    public Loader<ArrayList<APIResultsModel>> onCreateLoader(int id, @Nullable Bundle args) {
+    public Loader<List<APIResultsModel>> onCreateLoader(int id, @Nullable Bundle args) {
         return new ResultLoader(this, args);
     }
 
     @Override
-    public void onLoadFinished(@NonNull Loader<ArrayList<APIResultsModel>> loader,
-                               ArrayList<APIResultsModel> data) {
+    public void onLoadFinished(@NonNull Loader<List<APIResultsModel>> loader,
+                               List<APIResultsModel> data) {
         // Clear previous list and load list with new data
         mResultsList.clear();
         mResultsList.addAll(data);
@@ -161,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onLoaderReset(@NonNull Loader<ArrayList<APIResultsModel>> loader) {
+    public void onLoaderReset(@NonNull Loader<List<APIResultsModel>> loader) {
     }
 
     public void getLocation() {

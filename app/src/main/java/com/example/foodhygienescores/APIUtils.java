@@ -1,10 +1,7 @@
 package com.example.foodhygienescores;
 
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.RequiresApi;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,6 +14,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Comparator;
 
 public class APIUtils {
@@ -37,12 +35,12 @@ public class APIUtils {
     // Parameter limits pageSize to 500 results
     private static final String MAX_PAGE_SIZE = "500";
 
-    static ArrayList<APIResultsModel> getFoodHygieneData(Bundle bundle) {
+    static List<APIResultsModel> getFoodHygieneData(Bundle bundle) {
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
         Uri builtURI = null;
-        ArrayList<APIResultsModel> resultsList = new ArrayList<>();
+        List<APIResultsModel> resultsList = new ArrayList<>();
         String query = "";
         String userLongitude = "";
         String userLatitude = "";
