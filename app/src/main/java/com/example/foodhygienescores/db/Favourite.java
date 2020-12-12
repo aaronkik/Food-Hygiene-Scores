@@ -5,8 +5,10 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "favourites")
-public class Favourite {
+public class Favourite implements Serializable {
 
     @PrimaryKey
     @NonNull

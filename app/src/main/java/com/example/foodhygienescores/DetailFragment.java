@@ -4,11 +4,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +19,9 @@ import com.example.foodhygienescores.db.Favourite;
 import com.example.foodhygienescores.viewmodel.FavouritesViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
-import java.util.List;
+import static com.example.foodhygienescores.R.string.saved_error;
+import static com.example.foodhygienescores.R.string.saved_message;
+import static com.example.foodhygienescores.Utilities.addressFormatter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,25 +31,23 @@ import java.util.List;
 public class DetailFragment extends Fragment {
 
     private static final String RESULT_DETAIL = FoodHygieneAdapter.FoodHygieneHolder.PASS_DATA;
+    protected boolean isWideScreen = MainActivity.isWideScreen;
+    private APIResultsModel mResultDetail;
     private TextView mBusinessName, mAddress, mRatingValue, mHygiene, mStructural,
             mConInMan, mAuthorityName, mAuthorityWebsite, mAuthorityEmail;
     private Button mFavouriteButton, mOpenMapButton;
-    private FloatingActionButton mFavouriteFab;
-    private APIResultsModel mResultDetail;
     private int FHRSID, score_hygiene, score_structural, score_con_in_man;
     private String business_name, address_line1, address_line2, address_line3, address_line4,
             postcode, rating_value, authority_name, authority_website, authority_email, long_, lat;
-    protected boolean isWideScreen = MainActivity.isWideScreen;
-    private FavouritesViewModel mFavouritesViewModel;
 
     public DetailFragment() {
-        // Required empty public constructor
     }
 
     /**
      * @param resultsModel APIResultModel of a selected recyclerview.
      * @return A new instance of fragment DetailFragment.
      */
+    @NonNull
     public static DetailFragment newInstance(APIResultsModel resultsModel) {
         DetailFragment fragment = new DetailFragment();
         Bundle args = new Bundle();
@@ -64,23 +62,23 @@ public class DetailFragment extends Fragment {
 
         if (getArguments() != null) {
             mResultDetail = (APIResultsModel) getArguments().getSerializable(RESULT_DETAIL);
+            FHRSID = mResultDetail.getFHRSID();
+            business_name = mResultDetail.getBusinessName();
+            address_line1 = mResultDetail.getAddressLine1();
+            address_line2 = mResultDetail.getAddressLine2();
+            address_line3 = mResultDetail.getAddressLine3();
+            address_line4 = mResultDetail.getAddressLine4();
+            postcode = mResultDetail.getPostCode();
+            rating_value = mResultDetail.getRatingValue();
+            score_hygiene = mResultDetail.getScoreHygiene();
+            score_structural = mResultDetail.getScoreStructural();
+            score_con_in_man = mResultDetail.getScoreConInMan();
+            authority_name = mResultDetail.getAuthorityName();
+            authority_website = mResultDetail.getAuthorityWebsite();
+            authority_email = mResultDetail.getAuthorityEmail();
+            long_ = mResultDetail.getLongitude();
+            lat = mResultDetail.getLatitude();
         }
-        FHRSID = mResultDetail.getFHRSID();
-        business_name = mResultDetail.getBusinessName();
-        address_line1 = mResultDetail.getAddressLine1();
-        address_line2 = mResultDetail.getAddressLine2();
-        address_line3 = mResultDetail.getAddressLine3();
-        address_line4 = mResultDetail.getAddressLine4();
-        postcode = mResultDetail.getPostCode();
-        rating_value = mResultDetail.getRatingValue();
-        score_hygiene = mResultDetail.getScoreHygiene();
-        score_structural = mResultDetail.getScoreStructural();
-        score_con_in_man = mResultDetail.getScoreConInMan();
-        authority_name = mResultDetail.getAuthorityName();
-        authority_website = mResultDetail.getAuthorityWebsite();
-        authority_email = mResultDetail.getAuthorityEmail();
-        long_ = mResultDetail.getLongitude();
-        lat = mResultDetail.getLatitude();
     }
 
     @Override
@@ -100,7 +98,7 @@ public class DetailFragment extends Fragment {
 
         mBusinessName.setText(business_name);
         mAddress.setText(
-                formatAddress(address_line1, address_line2, address_line3, address_line4, postcode)
+                addressFormatter(address_line1, address_line2, address_line3, address_line4, postcode)
         );
         mRatingValue.setText(rating_value);
 
@@ -129,72 +127,31 @@ public class DetailFragment extends Fragment {
         if (isWideScreen) {
             container.findViewById(R.id.fragmentText).setVisibility(View.GONE);
             mFavouriteButton = view.findViewById(R.id.button_favourite);
-            mFavouriteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    addFavourite();
-                }
-            });
+            mFavouriteButton.setOnClickListener(view1 -> addFavourite());
         } else {
-            mFavouriteFab = view.findViewById(R.id.fab_favourite);
-            mFavouriteFab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    addFavourite();
-                }
-            });
+            FloatingActionButton mFavouriteFab = view.findViewById(R.id.fab_favourite);
+            mFavouriteFab.setOnClickListener(view2 -> addFavourite());
         }
 
-        mOpenMapButton = (Button) view.findViewById(R.id.button_show_map);
+        mOpenMapButton = view.findViewById(R.id.button_show_map);
 
-        mOpenMapButton.setOnClickListener(new View.OnClickListener() {
-            // https://developers.google.com/maps/documentation/urls/android-intents
-            @Override
-            public void onClick(View view) {
-                Uri mapQuery = Uri.parse("geo:" + lat + "," + long_ + "?z=19");
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, mapQuery);
-                if (mapIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                    startActivity(mapIntent);
-                } else {
-                    Toast.makeText(getContext(), R.string.map_error, Toast.LENGTH_SHORT).show();
-                }
+        // https://developers.google.com/maps/documentation/urls/android-intents
+        mOpenMapButton.setOnClickListener(view2 -> {
+            Uri mapQuery = Uri.parse("geo:" + lat + "," + long_ + "?z=19");
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, mapQuery);
+            try {
+                startActivity(mapIntent);
+            } catch (Exception e) {
+                Toast.makeText(getContext(), R.string.map_error, Toast.LENGTH_SHORT).show();
             }
         });
 
         return view;
     }
 
-    /**
-     * @param addr1    First address line of APIResultsModel
-     * @param addr2    Second address line of APIResultsModel
-     * @param addr3    Third address line of APIResultsModel
-     * @param addr4    Fourth address line of APIResultsModel
-     * @param postcode PostCode of APIResultsModel
-     * @return String of a full address
-     */
-    private String formatAddress
-    (String addr1, String addr2, String addr3, String addr4, String postcode) {
-
-        List<String> addressList = new ArrayList<>();
-        addressList.add(addr1);
-        addressList.add(addr2);
-        addressList.add(addr3);
-        addressList.add(addr4);
-        addressList.add(postcode);
-
-        StringBuilder stringBuilder = new StringBuilder();
-        // Filter out any address lines with empty strings
-        for (String string : addressList) {
-            if (string.length() > 0) {
-                stringBuilder.append(string + "\n");
-            }
-        }
-        return stringBuilder.toString();
-    }
-
     private void addFavourite() {
         try {
-            mFavouritesViewModel = new ViewModelProvider
+            FavouritesViewModel mFavouritesViewModel = new ViewModelProvider
                     (DetailFragment.this).get(FavouritesViewModel.class);
             Favourite favourite = new Favourite(
                     FHRSID,
@@ -215,11 +172,10 @@ public class DetailFragment extends Fragment {
                     lat
             );
             mFavouritesViewModel.insert(favourite);
-            Toast.makeText(getContext(), "Saved.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), saved_message, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            Toast.makeText(getContext(), "Error Submitting Save.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), saved_error, Toast.LENGTH_SHORT).show();
         }
-
     }
 
 }

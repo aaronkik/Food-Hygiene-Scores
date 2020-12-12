@@ -10,16 +10,16 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.content.Intent;
 import android.os.Bundle;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
 
     private String mDataKey;
     private String mIndexKey;
     private static final String mOutStateIndex = "OUT_STATE_INDEX";
-    private ViewPager2 viewPager2;
+    private ViewPager2 mViewPager2;
     private FragmentStateAdapter fragmentStateAdapter;
-    private ArrayList<APIResultsModel> mResultList;
+    private List<APIResultsModel> mResultList;
     private APIResultsModel mResult;
     private int mResultIndex;
     private int mResultListSize;
@@ -33,31 +33,30 @@ public class DetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         mDataKey = FoodHygieneAdapter.FoodHygieneHolder.PASS_DATA;
         mIndexKey = FoodHygieneAdapter.FoodHygieneHolder.PASS_INDEX;
-        mResultList = (ArrayList<APIResultsModel>) intent.getSerializableExtra(mDataKey);
+        mResultList = (List<APIResultsModel>) intent.getSerializableExtra(mDataKey);
         mResultIndex = intent.getIntExtra(mIndexKey, 0);
         mResultListSize = mResultList.size();
 
-        viewPager2 = findViewById(R.id.pager);
+        mViewPager2 = findViewById(R.id.pager);
         fragmentStateAdapter = new DetailPagerAdapter(this);
-        viewPager2.setAdapter(fragmentStateAdapter);
+        mViewPager2.setAdapter(fragmentStateAdapter);
 
         if (savedInstanceState != null) {
             int savedIndex = savedInstanceState.getInt(mOutStateIndex);
-            viewPager2.setCurrentItem(savedIndex);
+            mViewPager2.setCurrentItem(savedIndex);
         } else {
-            viewPager2.setCurrentItem(mResultIndex);
+            mViewPager2.setCurrentItem(mResultIndex);
         }
 
-        setTitle(titleBuilder(viewPager2.getCurrentItem(), mResultListSize));
+        setTitle(titleBuilder(mViewPager2.getCurrentItem(), mResultListSize));
 
-        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+        mViewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                setTitle(titleBuilder(viewPager2.getCurrentItem(), mResultListSize));
+                setTitle(titleBuilder(mViewPager2.getCurrentItem(), mResultListSize));
             }
         });
-
     }
 
     /**
@@ -86,7 +85,7 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(mOutStateIndex, viewPager2.getCurrentItem());
+        outState.putInt(mOutStateIndex, mViewPager2.getCurrentItem());
     }
 
     @Override

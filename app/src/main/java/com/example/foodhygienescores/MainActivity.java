@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 
+import com.example.foodhygienescores.ui.favourites.FavouriteActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -46,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements
     private Location mLocation;
     private List<APIResultsModel> mResultsList;
     private ProgressBar mProgressBar;
-    private FloatingActionButton mFabLocation;
     private FoodHygieneAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private TextView mIntroText;
@@ -74,13 +74,8 @@ public class MainActivity extends AppCompatActivity implements
             getSupportLoaderManager().initLoader(0, null, this);
         }
 
-        mFabLocation = findViewById(R.id.fab_location);
-        mFabLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getLocation();
-            }
-        });
+        FloatingActionButton mFabLocation = findViewById(R.id.fab_location);
+        mFabLocation.setOnClickListener(view -> getLocation());
     }
 
     @Override
@@ -201,18 +196,16 @@ public class MainActivity extends AppCompatActivity implements
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case REQUEST_LOCATION:
-                if (grantResults.length > 0 && grantResults[0]
-                        == PackageManager.PERMISSION_GRANTED) {
-                    getLocation();
-                } else {
-                    Toast.makeText
-                            (this, getString(R.string.location_disabled),
-                                    Toast.LENGTH_SHORT)
-                            .show();
-                }
-                break;
+        if (requestCode == REQUEST_LOCATION) {
+            if (grantResults.length > 0 && grantResults[0]
+                    == PackageManager.PERMISSION_GRANTED) {
+                getLocation();
+            } else {
+                Toast.makeText
+                        (this, getString(R.string.location_disabled),
+                                Toast.LENGTH_SHORT)
+                        .show();
+            }
         }
     }
 }

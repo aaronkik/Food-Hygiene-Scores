@@ -5,15 +5,14 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.foodhygienescores.APIResultsModel;
 import com.example.foodhygienescores.controller.FavouritesRepository;
 import com.example.foodhygienescores.db.Favourite;
 
 import java.util.List;
 
 public class FavouritesViewModel extends AndroidViewModel {
-    private FavouritesRepository mRepository;
-    private LiveData<List<Favourite>> mResultsList;
+    private final FavouritesRepository mRepository;
+    private final LiveData<List<Favourite>> mResultsList;
 
     public FavouritesViewModel(Application application) {
         super(application);
@@ -23,6 +22,10 @@ public class FavouritesViewModel extends AndroidViewModel {
 
     public LiveData<List<Favourite>> getAllFavourites() {
         return mResultsList;
+    }
+
+    public void deleteAll() {
+        mRepository.deleteAll();
     }
 
     public void insert(Favourite favourite) {

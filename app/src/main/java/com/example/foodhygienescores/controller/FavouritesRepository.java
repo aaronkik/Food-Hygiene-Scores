@@ -30,17 +30,35 @@ public class FavouritesRepository {
         new insertAsyncTask(mFavouriteDao).execute(favourite);
     }
 
+    public void deleteAll() {
+        new deleteAllAsyncTask(mFavouriteDao).execute();
+    }
+
     private static class insertAsyncTask extends AsyncTask<Favourite, Void, Void> {
 
-        private FavouriteDao mAsyncTaskDao;
+        private FavouriteDao mFavouriteDao;
 
         insertAsyncTask(FavouriteDao favouriteDao) {
-            mAsyncTaskDao = favouriteDao;
+            mFavouriteDao = favouriteDao;
         }
 
         @Override
         protected Void doInBackground(final Favourite... favourites) {
-            mAsyncTaskDao.insert(favourites[0]);
+            mFavouriteDao.insert(favourites[0]);
+            return null;
+        }
+    }
+
+    private static class deleteAllAsyncTask extends AsyncTask<Void, Void, Void> {
+        private FavouriteDao mFavouriteDao;
+
+        deleteAllAsyncTask(FavouriteDao favouriteDao) {
+            mFavouriteDao = favouriteDao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            mFavouriteDao.deleteAllFavourites();
             return null;
         }
     }

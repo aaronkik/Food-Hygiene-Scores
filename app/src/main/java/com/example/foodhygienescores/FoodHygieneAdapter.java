@@ -17,6 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.io.Serializable;
 import java.util.List;
 
+import static com.example.foodhygienescores.Utilities.isDouble;
+import static com.example.foodhygienescores.Utilities.isNumber;
+
 public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.FoodHygieneHolder> {
 
     class FoodHygieneHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -35,7 +38,7 @@ public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.
             this.mDistance = itemView.findViewById(R.id.distance);
             this.mLocationPin = itemView.findViewById(R.id.location_pin);
             this.mAdapter = adapter;
-            itemView.setOnClickListener(this::onClick);
+            itemView.setOnClickListener(this);
         }
 
         @Override
@@ -104,28 +107,7 @@ public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.
 
     @Override
     public int getItemCount() {
-        if (mResultsList != null) {
-            return mResultsList.size();
-        }
-        return 0;
-    }
-
-    private boolean isNumber(String string) {
-        try {
-            Integer.parseInt(string);
-            return true;
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-    }
-
-    // getDistance is always type Double as defined in APIResultsModel
-    private boolean isDouble(Double d) {
-        if (Double.isNaN(d)) {
-            return false;
-        } else {
-            return true;
-        }
+        return mResultsList.size();
     }
 
 }
