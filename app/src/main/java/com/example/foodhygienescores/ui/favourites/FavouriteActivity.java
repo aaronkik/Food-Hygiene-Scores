@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.foodhygienescores.MainActivity;
+import com.example.foodhygienescores.ui.main.MainActivity;
 import com.example.foodhygienescores.R;
 import com.example.foodhygienescores.viewmodel.FavouritesViewModel;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;

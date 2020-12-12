@@ -1,4 +1,4 @@
-package com.example.foodhygienescores;
+package com.example.foodhygienescores.ui.main;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.foodhygienescores.APIResultsModel;
+import com.example.foodhygienescores.R;
 
 import java.io.Serializable;
 import java.util.List;

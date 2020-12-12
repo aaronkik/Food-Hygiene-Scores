@@ -1,4 +1,4 @@
-package com.example.foodhygienescores;
+package com.example.foodhygienescores.ui.main;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +9,9 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.example.foodhygienescores.APIResultsModel;
+import com.example.foodhygienescores.R;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.foodhygienescores;
+package com.example.foodhygienescores.ui.main;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.foodhygienescores.APIResultsModel;
+import com.example.foodhygienescores.R;
 import com.example.foodhygienescores.db.Favourite;
 import com.example.foodhygienescores.viewmodel.FavouritesViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.foodhygienescores.MainActivity;
+import com.example.foodhygienescores.ui.main.MainActivity;
 import com.example.foodhygienescores.R;
 import com.example.foodhygienescores.db.Favourite;
 

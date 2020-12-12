@@ -1,4 +1,4 @@
-package com.example.foodhygienescores;
+package com.example.foodhygienescores.ui.main;
 
 import android.Manifest;
 import android.app.SearchManager;
@@ -9,6 +9,10 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 
+import com.example.foodhygienescores.APIResultsModel;
+import com.example.foodhygienescores.R;
+import com.example.foodhygienescores.ResultLoader;
+import com.example.foodhygienescores.UserLocation;
 import com.example.foodhygienescores.ui.favourites.FavouriteActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;

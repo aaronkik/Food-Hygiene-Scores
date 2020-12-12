@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.foodhygienescores.APIResultsModel;
 import com.example.foodhygienescores.db.Favourite;
 import com.example.foodhygienescores.db.FavouriteDao;
 import com.example.foodhygienescores.db.FavouriteRoomDatabase;
