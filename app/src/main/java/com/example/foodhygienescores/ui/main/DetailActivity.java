@@ -13,6 +13,7 @@ import android.os.Bundle;
 import com.example.foodhygienescores.APIResultsModel;
 import com.example.foodhygienescores.R;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {

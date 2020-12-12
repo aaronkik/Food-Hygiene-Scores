@@ -19,6 +19,7 @@ import com.example.foodhygienescores.R;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Locale;
 
 import static com.example.foodhygienescores.Utilities.isDouble;
 import static com.example.foodhygienescores.Utilities.isNumber;
@@ -96,10 +97,10 @@ public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.
             holder.mRatingValue.setText(R.string.question_mark);
         }
         if (isDouble(distance)) {
-            String doubleToString = String.format("%.2f", distance);
+            String doubleToString = String.format(Locale.ENGLISH, "%.2fm", distance);
             holder.mDistance.setVisibility(View.VISIBLE);
             holder.mLocationPin.setVisibility(View.VISIBLE);
-            holder.mDistance.setText(doubleToString + "m");
+            holder.mDistance.setText(doubleToString);
         } else {
             holder.mLocationPin.setVisibility(View.GONE);
             holder.mDistance.setVisibility(View.GONE);
