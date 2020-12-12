@@ -53,6 +53,7 @@
         android:id="@+id/fab_delete_all"
         android:contentDescription="@string/delete_all_businesses"
         style="@style/fab"
+        android:backgroundTint="@color/red_200"
         android:text="@string/delete_all"
         app:icon="@drawable/ic_delete_sweep"
         app:layout_constraintBottom_toBottomOf="@+id/wide_layout_favourite"

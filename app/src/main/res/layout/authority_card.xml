@@ -39,7 +39,8 @@
                 style="?attr/textAppearanceBody2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:autoLink="web" />
+                android:autoLink="web"
+                android:textColorLink="@color/green_500" />
 
         </LinearLayout>
 
@@ -49,14 +50,16 @@
                 style="?attr/textAppearanceBody2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/email" />
+                android:text="@string/email"
+                android:textColorLink="@color/green_500" />
 
             <TextView
                 android:id="@+id/authority_email"
                 style="?attr/textAppearanceBody2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:autoLink="email" />
+                android:autoLink="email"
+                android:textColorLink="@color/green_500" />
 
         </LinearLayout>
 

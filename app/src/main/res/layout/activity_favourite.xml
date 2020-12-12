@@ -20,6 +20,7 @@
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab_delete_all"
         style="@style/fab"
+        android:backgroundTint="@color/red_200"
         android:contentDescription="@string/delete_all_businesses"
         android:text="@string/delete_all"
         app:icon="@drawable/ic_delete_sweep"

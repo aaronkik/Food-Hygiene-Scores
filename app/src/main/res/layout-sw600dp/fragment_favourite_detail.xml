@@ -39,7 +39,10 @@
                 android:layout_marginLeft="@dimen/default_margin"
                 android:contentDescription="@string/delete_business"
                 android:text="@string/delete"
-                app:icon="@drawable/ic_delete" />
+                android:textColor="@color/red_200"
+                app:icon="@drawable/ic_delete"
+                app:iconTint="@color/red_200"
+                app:rippleColor="@color/black" />
 
             <include layout="@layout/business_address_card" />
 
