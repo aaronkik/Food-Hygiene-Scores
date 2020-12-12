@@ -96,40 +96,40 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here.
-        switch (item.getItemId()) {
-            case R.id.search:
-                SearchManager searchManager = (SearchManager)
-                        getSystemService(Context.SEARCH_SERVICE);
-                SearchView searchView = (SearchView) item.getActionView();
-                searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                    @Override
-                    public boolean onQueryTextSubmit(String query) {
-                        Bundle queryBundle = new Bundle();
-                        queryBundle.putString("query", query);
-                        startLoader(queryBundle);
-                        InputMethodManager inputManager = (InputMethodManager)
-                                getSystemService(Context.INPUT_METHOD_SERVICE);
-                        if (inputManager != null) {
-                            inputManager.hideSoftInputFromWindow(searchView.getWindowToken(),
-                                    InputMethodManager.HIDE_NOT_ALWAYS);
-                        }
-                        return true;
+        int itemId = item.getItemId();
+        if (itemId == R.id.search) {
+            SearchManager searchManager = (SearchManager)
+                    getSystemService(Context.SEARCH_SERVICE);
+            SearchView searchView = (SearchView) item.getActionView();
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    Bundle queryBundle = new Bundle();
+                    queryBundle.putString("query", query);
+                    startLoader(queryBundle);
+                    InputMethodManager inputManager = (InputMethodManager)
+                            getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (inputManager != null) {
+                        inputManager.hideSoftInputFromWindow(searchView.getWindowToken(),
+                                InputMethodManager.HIDE_NOT_ALWAYS);
                     }
+                    return true;
+                }
 
-                    @Override
-                    public boolean onQueryTextChange(String newText) {
-                        return false;
-                    }
-                });
-                return true;
-            case R.id.favourites:
-                Intent intent = new Intent(MainActivity.this, FavouriteActivity.class);
-                startActivity(intent);
-                return true;
-            case R.id.action_settings:
-                Toast.makeText(this, R.string.action_settings, Toast.LENGTH_SHORT).show();
-                return true;
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    return false;
+                }
+            });
+            return true;
+        } else if (itemId == R.id.favourites) {
+            Intent intent = new Intent(MainActivity.this, FavouriteActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (itemId == R.id.action_settings) {
+            Toast.makeText(this, R.string.action_settings, Toast.LENGTH_SHORT).show();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
