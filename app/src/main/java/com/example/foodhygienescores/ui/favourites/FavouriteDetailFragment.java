@@ -14,22 +14,24 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.foodhygienescores.MainActivity;
 import com.example.foodhygienescores.R;
 import com.example.foodhygienescores.db.Favourite;
 import com.example.foodhygienescores.viewmodel.FavouritesViewModel;
-
-import java.io.Serializable;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import static com.example.foodhygienescores.Utilities.addressFormatter;
 
 public class FavouriteDetailFragment extends Fragment {
 
     private static final String DATA_KEY = FavouriteAdapter.FavouriteHolder.PASS_DATA;
+    protected boolean isWideScreen = MainActivity.isWideScreen;
     private Favourite mFavourite;
     private TextView mBusinessName, mAddress, mRatingValue, mHygiene, mStructural,
             mConInMan, mAuthorityName, mAuthorityWebsite, mAuthorityEmail;
     private Button mDeleteButton, mOpenMapButton;
-    private int FHRSID, score_hygiene, score_structural, score_con_in_man;
+    private ExtendedFloatingActionButton mDeleteFab;
+    private int score_hygiene, score_structural, score_con_in_man;
     private String business_name, address_line1, address_line2, address_line3, address_line4,
             postcode, rating_value, authority_name, authority_website, authority_email, long_, lat;
 
@@ -39,7 +41,7 @@ public class FavouriteDetailFragment extends Fragment {
     public static FavouriteDetailFragment newInstance(Favourite favourite) {
         FavouriteDetailFragment fragment = new FavouriteDetailFragment();
         Bundle args = new Bundle();
-        args.putSerializable(DATA_KEY, (Serializable) favourite);
+        args.putSerializable(DATA_KEY, favourite);
         fragment.setArguments(args);
         return fragment;
     }
@@ -49,7 +51,6 @@ public class FavouriteDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mFavourite = (Favourite) getArguments().getSerializable(DATA_KEY);
-            FHRSID = mFavourite.getFHRSID();
             business_name = mFavourite.getBusiness_name();
             address_line1 = mFavourite.getAddress_line1();
             address_line2 = mFavourite.getAddress_line2();
@@ -108,8 +109,6 @@ public class FavouriteDetailFragment extends Fragment {
         mAuthorityWebsite.setText(authority_website);
         mAuthorityEmail.setText(authority_email);
 
-        view.findViewById(R.id.fragment_favourite).setVisibility(View.VISIBLE);
-
         mOpenMapButton = view.findViewById(R.id.button_show_map);
         // https://developers.google.com/maps/documentation/urls/android-intents
         mOpenMapButton.setOnClickListener(v -> {
@@ -122,16 +121,28 @@ public class FavouriteDetailFragment extends Fragment {
             }
         });
 
-//        mDeleteButton = view.findViewById(R.id.fab_delete);
-//        mDeleteButton.setOnClickListener(v -> deleteAll());
+        view.findViewById(R.id.fragment_favourite).setVisibility(View.VISIBLE);
+
+        if (isWideScreen) {
+            container.findViewById(R.id.fragmentText_favourite).setVisibility(View.GONE);
+            mDeleteButton = view.findViewById(R.id.button_delete);
+            mDeleteButton.setOnClickListener(v -> delete());
+        } else {
+            mDeleteFab = view.findViewById(R.id.fab_delete);
+            mDeleteFab.setOnClickListener(v -> {
+                delete();
+                getActivity().finish();
+            });
+        }
 
         return view;
     }
 
-//    private void deleteAll() {
-//        FavouritesViewModel mFavouritesViewModel = new ViewModelProvider
-//                (FavouriteDetailFragment.this).get(FavouritesViewModel.class);
-//        mFavouritesViewModel.deleteAll();
-//        Toast.makeText(getContext(), "Favourites Deleted...", Toast.LENGTH_SHORT ).show();
-//    }
+    private void delete() {
+        FavouritesViewModel mFavouritesViewModel = new ViewModelProvider
+                (FavouriteDetailFragment.this).get(FavouritesViewModel.class);
+        mFavouritesViewModel.delete(mFavourite);
+        Toast.makeText(getContext(), R.string.favourite_removed, Toast.LENGTH_SHORT).show();
+
+    }
 }

@@ -39,11 +39,11 @@ public class APIUtils {
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
-        Uri builtURI = null;
+        Uri builtURI;
         List<APIResultsModel> resultsList = new ArrayList<>();
-        String query = "";
-        String userLongitude = "";
-        String userLatitude = "";
+        String query;
+        String userLongitude;
+        String userLatitude;
 
         if (bundle.get("query") != null) {
             query = bundle.getString("query");
@@ -65,9 +65,7 @@ public class APIUtils {
         }
 
         try {
-
             URL requestURL = new URL(builtURI.toString());
-
             urlConnection = (HttpURLConnection) requestURL.openConnection();
             urlConnection.setRequestMethod("GET");
             urlConnection.addRequestProperty("x-api-version", API_VERSION);

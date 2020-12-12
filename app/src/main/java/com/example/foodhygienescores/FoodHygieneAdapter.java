@@ -96,7 +96,7 @@ public class FoodHygieneAdapter extends RecyclerView.Adapter<FoodHygieneAdapter.
             String doubleToString = String.format("%.2f", distance);
             holder.mDistance.setVisibility(View.VISIBLE);
             holder.mLocationPin.setVisibility(View.VISIBLE);
-            holder.mDistance.setText(doubleToString);
+            holder.mDistance.setText(doubleToString + "m");
         } else {
             holder.mLocationPin.setVisibility(View.GONE);
             holder.mDistance.setVisibility(View.GONE);

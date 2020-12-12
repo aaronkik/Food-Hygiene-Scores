@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Food Hygiene Scores</string>
     <string name="action_settings">Settings</string>
-
     <string name="action_location">Location</string>
     <string name="search_action">Search</string>
     <string name="searchbar_hint">Search for a location</string>
@@ -21,11 +20,11 @@
     <string name="address">Address</string>
     <string name="favourite_button">Favourite Button</string>
     <string name="score_unavailable">No Score Available.</string>
-    <string name="date_error">Error getting date.</string>
+    <string name="date_error">Error getting date</string>
     <string name="view_more">Select a business to view more!</string>
-    <string name="map_error">Unable to open map.</string>
-    <string name="location_disabled">Location Permissions Disabled.</string>
-    <string name="location_unavailable">Unable to get location.</string>
+    <string name="map_error">Unable to open map</string>
+    <string name="location_disabled">Location Permissions Disabled</string>
+    <string name="location_unavailable">Unable to get location</string>
     <string name="location_icon">Location Icon</string>
     <string name="question_mark">\?</string>
     <string name="favourites">Favourites</string>
@@ -33,10 +32,10 @@
     <string name="favourite_initial_text">You currently have no favourites. Favourite businesses will show here.</string>
     <string name="saved_message">Saved.</string>
     <string name="saved_error">Error Submitting Save.</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="delete_business">Delete Business</string>
     <string name="delete">Delete</string>
     <string name="delete_all_businesses">Delete All Businesses</string>
     <string name="delete_all">Delete All</string>
+    <string name="favourites_deleted">All Favourites Deleted</string>
+    <string name="favourite_removed">Favourite Removed</string>
 </resources>

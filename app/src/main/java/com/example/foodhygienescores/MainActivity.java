@@ -12,7 +12,6 @@ import android.os.Bundle;
 import com.example.foodhygienescores.ui.favourites.FavouriteActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.NonNull;
@@ -70,8 +69,8 @@ public class MainActivity extends AppCompatActivity implements
         mAdapter = new FoodHygieneAdapter(this, mResultsList);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        if (getSupportLoaderManager().getLoader(0) != null) {
-            getSupportLoaderManager().initLoader(0, null, this);
+        if (LoaderManager.getInstance(this).getLoader(0) != null) {
+            LoaderManager.getInstance(this).initLoader(0, null, this);
         }
 
         FloatingActionButton mFabLocation = findViewById(R.id.fab_location);
@@ -133,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements
 
     // Custom method
     public void startLoader(Bundle bundle) {
-        getSupportLoaderManager().restartLoader(0, bundle, MainActivity.this);
+        LoaderManager.getInstance(this).restartLoader(0, bundle, MainActivity.this);
         mProgressBar.setVisibility(View.VISIBLE);
     }
 
@@ -169,24 +168,21 @@ public class MainActivity extends AppCompatActivity implements
                             {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
         } else {
             mFusedLocation.getLastLocation().addOnSuccessListener
-                    (new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            if (location != null) {
-                                mLocation = location;
-                                UserLocation userLocation = new UserLocation();
-                                userLocation.setUserLongitude(String.valueOf(mLocation.getLongitude()));
-                                userLocation.setUserLatitude(String.valueOf(mLocation.getLatitude()));
-                                Bundle bundle = new Bundle();
-                                bundle.putSerializable("location", userLocation);
-                                startLoader(bundle);
-                            } else {
-                                Toast.makeText
-                                        (MainActivity.this,
-                                                getString(R.string.location_unavailable),
-                                                Toast.LENGTH_SHORT)
-                                        .show();
-                            }
+                    (location -> {
+                        if (location != null) {
+                            mLocation = location;
+                            UserLocation userLocation = new UserLocation();
+                            userLocation.setUserLongitude(String.valueOf(mLocation.getLongitude()));
+                            userLocation.setUserLatitude(String.valueOf(mLocation.getLatitude()));
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("location", userLocation);
+                            startLoader(bundle);
+                        } else {
+                            Toast.makeText
+                                    (MainActivity.this,
+                                            getString(R.string.location_unavailable),
+                                            Toast.LENGTH_SHORT)
+                                    .show();
                         }
                     });
         }

@@ -24,11 +24,15 @@ public class FavouritesViewModel extends AndroidViewModel {
         return mResultsList;
     }
 
-    public void deleteAll() {
-        mRepository.deleteAll();
-    }
-
     public void insert(Favourite favourite) {
         mRepository.insert(favourite);
+    }
+
+    public void delete(Favourite favourite) {
+        mRepository.delete(favourite);
+    }
+
+    public void deleteAll() {
+        mRepository.deleteAll();
     }
 }

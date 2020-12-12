@@ -6,7 +6,7 @@ public class APIResultsModel implements Serializable {
 
     /**
      * Variable names based on the API response
-     * <p>
+     *
      * https://api.ratings.food.gov.uk/Help/Api/GET-Establishments_name_address_longitude_latitude
      * _maxDistanceLimit_businessTypeId_schemeTypeKey_ratingKey_ratingOperatorKey_localAuthorityId
      * _countryId_sortOptionKey_pageNumber_pageSize
@@ -31,24 +31,6 @@ public class APIResultsModel implements Serializable {
     private double distance;
 
     public APIResultsModel() {
-
-        this.FHRSID = FHRSID;
-        this.businessName = businessName;
-        this.addressLine1 = addressLine1;
-        this.addressLine2 = addressLine2;
-        this.addressLine3 = addressLine3;
-        this.addressLine4 = addressLine4;
-        this.postCode = postCode;
-        this.ratingValue = ratingValue;
-        this.authorityName = authorityName;
-        this.authorityWebsite = authorityWebsite;
-        this.authorityEmail = authorityEmail;
-        this.scoreHygiene = scoreHygiene;
-        this.scoreStructural = scoreStructural;
-        this.scoreConInMan = scoreConInMan;
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.distance = distance;
     }
 
     public int getFHRSID() {

@@ -10,6 +10,7 @@
     tools:context=".ui.favourites.FavouriteDetailFragment">
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,6 +30,17 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_margin" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_delete"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:contentDescription="@string/delete_business"
+                android:text="@string/delete"
+                app:icon="@drawable/ic_delete" />
+
             <include layout="@layout/business_address_card" />
 
             <include layout="@layout/scores_card" />
@@ -38,15 +50,5 @@
         </LinearLayout>
 
     </ScrollView>
-
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/fab_delete"
-        style="@style/fab"
-        android:contentDescription="@string/delete_business"
-        android:text="@string/delete"
-        app:icon="@drawable/ic_delete"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_delete" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

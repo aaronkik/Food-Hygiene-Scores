@@ -8,8 +8,6 @@ public class UserLocation implements Serializable {
     private String userLatitude;
 
     public UserLocation() {
-        this.userLongitude = userLongitude;
-        this.userLatitude = userLatitude;
     }
 
     public String getUserLongitude() {

@@ -2,13 +2,14 @@ package com.example.foodhygienescores.ui.favourites;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodhygienescores.MainActivity;
@@ -42,7 +43,13 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.Favo
             Favourite favourite = mFavouriteList.get(mAdapterPosition);
             Context context = view.getContext();
             if (isWideScreen) {
-
+                FavouriteDetailFragment favouriteDetailFragment =
+                        FavouriteDetailFragment.newInstance(favourite);
+                FragmentManager fragmentManager =
+                        ((FragmentActivity) context).getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.fragment_layout_favourite, favouriteDetailFragment)
+                        .commit();
             } else {
                 Intent intent = new Intent(context, FavouriteDetailActivity.class);
                 intent.putExtra(PASS_DATA, (Serializable) mFavouriteList);
@@ -77,7 +84,6 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.Favo
             Favourite favourite = mFavouriteList.get(position);
             String business_name = favourite.getBusiness_name();
             String rating_value = favourite.getRating_value();
-
             holder.mBusinessName.setText(business_name);
             if (isNumber(rating_value)) {
                 holder.mRatingValue.setText(rating_value);
@@ -94,6 +100,5 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.Favo
         }
         return 0;
     }
-
 
 }

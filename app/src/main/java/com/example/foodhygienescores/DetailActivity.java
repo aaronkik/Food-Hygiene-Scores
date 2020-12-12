@@ -14,14 +14,10 @@ import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
 
-    private String mDataKey;
-    private String mIndexKey;
     private static final String mOutStateIndex = "OUT_STATE_INDEX";
     private ViewPager2 mViewPager2;
-    private FragmentStateAdapter fragmentStateAdapter;
     private List<APIResultsModel> mResultList;
     private APIResultsModel mResult;
-    private int mResultIndex;
     private int mResultListSize;
     private static final String mTitleText = "Result: ";
 
@@ -31,14 +27,14 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         Intent intent = getIntent();
-        mDataKey = FoodHygieneAdapter.FoodHygieneHolder.PASS_DATA;
-        mIndexKey = FoodHygieneAdapter.FoodHygieneHolder.PASS_INDEX;
+        String mDataKey = FoodHygieneAdapter.FoodHygieneHolder.PASS_DATA;
+        String mIndexKey = FoodHygieneAdapter.FoodHygieneHolder.PASS_INDEX;
         mResultList = (List<APIResultsModel>) intent.getSerializableExtra(mDataKey);
-        mResultIndex = intent.getIntExtra(mIndexKey, 0);
+        int mResultIndex = intent.getIntExtra(mIndexKey, 0);
         mResultListSize = mResultList.size();
 
         mViewPager2 = findViewById(R.id.pager);
-        fragmentStateAdapter = new DetailPagerAdapter(this);
+        FragmentStateAdapter fragmentStateAdapter = new DetailPagerAdapter(this);
         mViewPager2.setAdapter(fragmentStateAdapter);
 
         if (savedInstanceState != null) {

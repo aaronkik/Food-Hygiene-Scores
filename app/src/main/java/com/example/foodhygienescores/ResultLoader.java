@@ -10,7 +10,7 @@ import androidx.loader.content.AsyncTaskLoader;
 import java.util.List;
 
 public class ResultLoader extends AsyncTaskLoader<List<APIResultsModel>> {
-    private Bundle bundle;
+    private final Bundle bundle;
 
     public ResultLoader(@NonNull Context context, Bundle bundle) {
         super(context);
