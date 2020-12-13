@@ -2,25 +2,27 @@ package com.example.foodhygienescores.ui.favourites;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.foodhygienescores.db.Favourite;
 import com.example.foodhygienescores.ui.main.MainActivity;
 import com.example.foodhygienescores.R;
 import com.example.foodhygienescores.viewmodel.FavouritesViewModel;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
+
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 import static com.example.foodhygienescores.R.string.favourites_deleted;
 
@@ -58,7 +60,7 @@ public class FavouriteActivity extends AppCompatActivity {
             setTitle("Favourites: " + favouriteSize);
 
             ItemTouchHelper.SimpleCallback simpleCallback =
-                    new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+                    new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
                         @Override
                         public boolean onMove(@NonNull RecyclerView recyclerView,
@@ -74,10 +76,22 @@ public class FavouriteActivity extends AppCompatActivity {
                             Favourite favourite = favourites.get(position);
                             mFavouritesViewModel.delete(favourite);
                             View view = findViewById(R.id.favourite_activity);
-                            Snackbar.make(view, favourites_deleted, Snackbar.LENGTH_SHORT)
+                            Snackbar.make(view, R.string.favourite_removed, Snackbar.LENGTH_SHORT)
                                     .setAction(R.string.undo, v ->
                                             mFavouritesViewModel.insert(favourite))
                                     .show();
+                        }
+
+                        @Override
+                        public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                            new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY,
+                                    actionState, isCurrentlyActive)
+                                    .addSwipeLeftBackgroundColor(ContextCompat.getColor
+                                            (FavouriteActivity.this, R.color.red_200))
+                                    .addSwipeLeftActionIcon(R.drawable.ic_delete)
+                                    .create()
+                                    .decorate();
+                            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
                         }
                     };
             ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);

@@ -19,6 +19,7 @@ import com.example.foodhygienescores.R;
 import com.example.foodhygienescores.db.Favourite;
 import com.example.foodhygienescores.viewmodel.FavouritesViewModel;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import static com.example.foodhygienescores.Utilities.addressFormatter;
 
@@ -126,22 +127,21 @@ public class FavouriteDetailFragment extends Fragment {
         if (isWideScreen) {
             container.findViewById(R.id.fragmentText_favourite).setVisibility(View.GONE);
             mDeleteButton = view.findViewById(R.id.button_delete);
-            mDeleteButton.setOnClickListener(v -> delete());
+            mDeleteButton.setOnClickListener(v -> deleteFavourite(view, mFavourite));
         } else {
             mDeleteFab = view.findViewById(R.id.fab_delete);
-            mDeleteFab.setOnClickListener(v -> {
-                delete();
-                getActivity().finish();
-            });
+            mDeleteFab.setOnClickListener(v -> deleteFavourite(view, mFavourite));
         }
 
         return view;
     }
 
-    private void delete() {
+    private void deleteFavourite(View view, Favourite favourite) {
         FavouritesViewModel mFavouritesViewModel = new ViewModelProvider
                 (FavouriteDetailFragment.this).get(FavouritesViewModel.class);
-        mFavouritesViewModel.delete(mFavourite);
-        Toast.makeText(getContext(), R.string.favourite_removed, Toast.LENGTH_SHORT).show();
+        mFavouritesViewModel.delete(favourite);
+        Snackbar.make(view, R.string.favourite_removed, Snackbar.LENGTH_SHORT)
+                .setAction(R.string.undo, v -> mFavouritesViewModel.insert(favourite))
+                .show();
     }
 }

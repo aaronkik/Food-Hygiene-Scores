@@ -21,7 +21,6 @@ public class DetailActivity extends AppCompatActivity {
     private static final String mOutStateIndex = "OUT_STATE_INDEX";
     private ViewPager2 mViewPager2;
     private List<APIResultsModel> mResultList;
-    private APIResultsModel mResult;
     private int mResultListSize;
     private static final String mTitleText = "Result: ";
 
@@ -101,7 +100,7 @@ public class DetailActivity extends AppCompatActivity {
         @NonNull
         @Override
         public Fragment createFragment(int position) {
-            mResult = mResultList.get(position);
+            APIResultsModel mResult = mResultList.get(position);
             return DetailFragment.newInstance(mResult);
         }
 

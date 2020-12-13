@@ -46,7 +46,6 @@ public class FavouriteDetailActivity extends AppCompatActivity {
         } else {
             mViewPager2.setCurrentItem(mFavouriteIndex);
         }
-
     }
 
     @Override

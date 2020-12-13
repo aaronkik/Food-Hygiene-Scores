@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 
+import android.graphics.Canvas;
 import android.location.Location;
 import android.os.Bundle;
 
@@ -26,6 +27,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
@@ -42,8 +44,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 import static com.example.foodhygienescores.Utilities.addFavouriteToRoom;
 import static com.example.foodhygienescores.Utilities.deleteFromRoomByFhrsid;
@@ -113,6 +116,23 @@ public class MainActivity extends AppCompatActivity implements
                                 })
                                 .show();
                     }
+
+                    @Override
+                    public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView,
+                                            @NonNull RecyclerView.ViewHolder viewHolder,
+                                            float dX, float dY, int actionState,
+                                            boolean isCurrentlyActive) {
+                        // https://github.com/xabaras/RecyclerViewSwipeDecorator
+                        new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY,
+                                actionState, isCurrentlyActive)
+                                .addSwipeRightBackgroundColor(ContextCompat.getColor
+                                        (MainActivity.this, R.color.green_500))
+                                .addSwipeRightActionIcon(R.drawable.ic_favorite)
+                                .create()
+                                .decorate();
+                        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState,
+                                isCurrentlyActive);
+                    }
                 };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
@@ -121,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+
     }
 
     @Override
@@ -164,9 +185,6 @@ public class MainActivity extends AppCompatActivity implements
             Intent intent = new Intent(MainActivity.this, FavouriteActivity.class);
             startActivity(intent);
             return true;
-        } else if (itemId == R.id.action_settings) {
-            Toast.makeText(this, R.string.action_settings, Toast.LENGTH_SHORT).show();
-            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -187,12 +205,17 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLoadFinished(@NonNull Loader<List<APIResultsModel>> loader,
                                List<APIResultsModel> apiResultsModels) {
-        // Clear previous list and load list with new data
         mResultsList = apiResultsModels;
         mAdapter.setFoodHygieneAdapter(apiResultsModels);
         mProgressBar.setVisibility(View.GONE);
-        mIntroText.setVisibility(View.GONE);
-        mRecyclerView.setVisibility(View.VISIBLE);
+        if (mResultsList.size() < 1) {
+            mIntroText.setText(R.string.no_results_message);
+            mIntroText.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.GONE);
+        } else {
+            mIntroText.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

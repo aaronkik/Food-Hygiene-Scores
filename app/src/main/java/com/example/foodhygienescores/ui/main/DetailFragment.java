@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,15 +17,13 @@ import android.widget.Toast;
 
 import com.example.foodhygienescores.APIResultsModel;
 import com.example.foodhygienescores.R;
-import com.example.foodhygienescores.db.Favourite;
-import com.example.foodhygienescores.viewmodel.FavouritesViewModel;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
-import static com.example.foodhygienescores.R.string.saved_error;
-import static com.example.foodhygienescores.R.string.saved_message;
 import static com.example.foodhygienescores.Utilities.addFavouriteToRoom;
 import static com.example.foodhygienescores.Utilities.addressFormatter;
+import static com.example.foodhygienescores.Utilities.deleteFromRoomByFhrsid;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,6 +34,7 @@ public class DetailFragment extends Fragment {
 
     private static final String RESULT_DETAIL = FoodHygieneAdapter.FoodHygieneHolder.PASS_DATA;
     protected boolean isWideScreen = MainActivity.isWideScreen;
+    private ViewModelStoreOwner viewModelStoreOwner = DetailFragment.this;
     private APIResultsModel mResultDetail;
     private TextView mBusinessName, mAddress, mRatingValue, mHygiene, mStructural,
             mConInMan, mAuthorityName, mAuthorityWebsite, mAuthorityEmail;
@@ -132,11 +131,17 @@ public class DetailFragment extends Fragment {
             container.findViewById(R.id.fragmentText).setVisibility(View.GONE);
             mFavouriteButton = view.findViewById(R.id.button_favourite);
             mFavouriteButton.setOnClickListener(view1 ->
-                    addFavouriteToRoom(mResultDetail, DetailFragment.this));
+            {
+                addFavouriteToRoom(mResultDetail, viewModelStoreOwner);
+                undoSnackBar(view, FHRSID);
+            });
         } else {
             FloatingActionButton mFavouriteFab = view.findViewById(R.id.fab_favourite);
             mFavouriteFab.setOnClickListener(view2 ->
-                    addFavouriteToRoom(mResultDetail, DetailFragment.this));
+            {
+                addFavouriteToRoom(mResultDetail, viewModelStoreOwner);
+                undoSnackBar(view, FHRSID);
+            });
         }
 
         mOpenMapButton = view.findViewById(R.id.button_show_map);
@@ -155,8 +160,11 @@ public class DetailFragment extends Fragment {
         return view;
     }
 
-    private void undoSnackBar() {
-        Snackbar snackbar;
+    private void undoSnackBar(View view, int fhrsid) {
+        Snackbar.make(view, R.string.added_favourites, Snackbar.LENGTH_SHORT)
+                .setAction(R.string.undo,
+                        v -> deleteFromRoomByFhrsid(viewModelStoreOwner, fhrsid))
+                .show();
     }
 
 }

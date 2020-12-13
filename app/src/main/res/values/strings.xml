@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Food Hygiene Scores</string>
-    <string name="action_settings">Settings</string>
     <string name="action_location">Location</string>
     <string name="search_action">Search</string>
     <string name="searchbar_hint">Search for a location</string>
@@ -40,4 +39,5 @@
     <string name="favourite_removed">Favourite Removed</string>
     <string name="added_favourites">Added to favourites</string>
     <string name="undo">Undo</string>
+    <string name="no_results_message">No Results returned, try a different search or try again later.</string>
 </resources>
