@@ -17,6 +17,7 @@ import com.example.foodhygienescores.ui.favourites.FavouriteActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,8 +26,10 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,6 +44,9 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.foodhygienescores.Utilities.addFavouriteToRoom;
+import static com.example.foodhygienescores.Utilities.deleteFromRoomByFhrsid;
 
 public class MainActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<List<APIResultsModel>> {
@@ -66,11 +72,10 @@ public class MainActivity extends AppCompatActivity implements
             isWideScreen = true;
         }
         mFusedLocation = LocationServices.getFusedLocationProviderClient(this);
-        mResultsList = new ArrayList<>();
         mProgressBar = findViewById(R.id.progress_bar);
         mIntroText = findViewById(R.id.textView);
         mRecyclerView = findViewById(R.id.recyclerview);
-        mAdapter = new FoodHygieneAdapter(this, mResultsList);
+        mAdapter = new FoodHygieneAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         if (LoaderManager.getInstance(this).getLoader(0) != null) {
@@ -79,6 +84,38 @@ public class MainActivity extends AppCompatActivity implements
 
         FloatingActionButton mFabLocation = findViewById(R.id.fab_location);
         mFabLocation.setOnClickListener(view -> getLocation());
+
+        ItemTouchHelper.SimpleCallback simpleCallback =
+                new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+                    @Override
+                    public boolean onMove(@NonNull RecyclerView recyclerView,
+                                          @NonNull RecyclerView.ViewHolder viewHolder,
+                                          @NonNull RecyclerView.ViewHolder target) {
+                        return false;
+                    }
+
+                    @Override
+                    public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder,
+                                         int direction) {
+                        int position = viewHolder.getAdapterPosition();
+                        APIResultsModel apiResultsModel = mAdapter.getAPIResultsModel(position);
+                        int FHRSID = apiResultsModel.getFHRSID();
+                        ViewModelStoreOwner viewModelStoreOwner = MainActivity.this;
+                        addFavouriteToRoom(apiResultsModel, viewModelStoreOwner);
+                        mResultsList.remove(position);
+                        mAdapter.setFoodHygieneAdapter(mResultsList);
+                        View view = findViewById(R.id.main_activity);
+                        Snackbar.make(view, R.string.added_favourites, Snackbar.LENGTH_SHORT)
+                                .setAction(R.string.undo, v -> {
+                                    deleteFromRoomByFhrsid(viewModelStoreOwner, FHRSID);
+                                    mResultsList.add(position, apiResultsModel);
+                                    mAdapter.setFoodHygieneAdapter(mResultsList);
+                                })
+                                .show();
+                    }
+                };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 
     @Override
@@ -149,11 +186,10 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onLoadFinished(@NonNull Loader<List<APIResultsModel>> loader,
-                               List<APIResultsModel> data) {
+                               List<APIResultsModel> apiResultsModels) {
         // Clear previous list and load list with new data
-        mResultsList.clear();
-        mResultsList.addAll(data);
-        mAdapter.notifyDataSetChanged();
+        mResultsList = apiResultsModels;
+        mAdapter.setFoodHygieneAdapter(apiResultsModels);
         mProgressBar.setVisibility(View.GONE);
         mIntroText.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.VISIBLE);

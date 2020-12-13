@@ -29,8 +29,16 @@ public class FavouritesRepository {
         new insertAsyncTask(mFavouriteDao).execute(favourite);
     }
 
+    public void insertFavourites(List<Favourite> favourites) {
+        new insertFavouritesAsyncTask(mFavouriteDao).execute(favourites);
+    }
+
     public void delete(Favourite favourite) {
         new deleteAsyncTask(mFavouriteDao).execute(favourite);
+    }
+
+    public void deleteByFhrsid(int fhrsid) {
+        new deleteFhrsidAsyncTask(mFavouriteDao, fhrsid).execute();
     }
 
     public void deleteAll() {
@@ -38,7 +46,6 @@ public class FavouritesRepository {
     }
 
     private static class insertAsyncTask extends AsyncTask<Favourite, Void, Void> {
-
         private FavouriteDao mFavouriteDao;
 
         insertAsyncTask(FavouriteDao favouriteDao) {
@@ -48,6 +55,20 @@ public class FavouritesRepository {
         @Override
         protected Void doInBackground(final Favourite... favourites) {
             mFavouriteDao.insert(favourites[0]);
+            return null;
+        }
+    }
+
+    private static class insertFavouritesAsyncTask extends AsyncTask<List<Favourite>, Void, Void> {
+        private FavouriteDao mFavouriteDao;
+
+        insertFavouritesAsyncTask(FavouriteDao favouriteDao) {
+            mFavouriteDao = favouriteDao;
+        }
+
+        @Override
+        protected Void doInBackground(final List<Favourite>... favourites) {
+            mFavouriteDao.insertFavourites(favourites[0]);
             return null;
         }
     }
@@ -62,6 +83,22 @@ public class FavouritesRepository {
         @Override
         protected Void doInBackground(Favourite... favourites) {
             mFavouriteDao.deleteFavourite(favourites[0]);
+            return null;
+        }
+    }
+
+    private static class deleteFhrsidAsyncTask extends AsyncTask<Void, Void, Void> {
+        private FavouriteDao mFavouriteDao;
+        private int mFhrsid;
+
+        deleteFhrsidAsyncTask(FavouriteDao favouriteDao, int fhrsid) {
+            mFavouriteDao = favouriteDao;
+            mFhrsid = fhrsid;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            mFavouriteDao.deleteByFhrsid(mFhrsid);
             return null;
         }
     }

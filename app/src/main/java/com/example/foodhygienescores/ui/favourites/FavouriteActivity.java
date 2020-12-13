@@ -1,7 +1,9 @@
 package com.example.foodhygienescores.ui.favourites;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,17 +12,24 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.foodhygienescores.db.Favourite;
 import com.example.foodhygienescores.ui.main.MainActivity;
 import com.example.foodhygienescores.R;
 import com.example.foodhygienescores.viewmodel.FavouritesViewModel;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.List;
 
 import static com.example.foodhygienescores.R.string.favourites_deleted;
+
 
 public class FavouriteActivity extends AppCompatActivity {
 
     protected boolean isWideScreen = MainActivity.isWideScreen;
     private TextView mInitialText, mWideScreenFragmentText;
+    private List<Favourite> mFavouriteList;
     private FavouriteAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private ExtendedFloatingActionButton mDeleteAll;
@@ -44,8 +53,37 @@ public class FavouriteActivity extends AppCompatActivity {
         FavouritesViewModel mFavouritesViewModel = new ViewModelProvider(this)
                 .get(FavouritesViewModel.class);
         mFavouritesViewModel.getAllFavourites().observe(this, favourites -> {
+            int favouriteSize = favourites.size();
             mAdapter.setFavouritesList(favourites);
-            if (favourites.size() > 0) {
+            setTitle("Favourites: " + favouriteSize);
+
+            ItemTouchHelper.SimpleCallback simpleCallback =
+                    new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+
+                        @Override
+                        public boolean onMove(@NonNull RecyclerView recyclerView,
+                                              @NonNull RecyclerView.ViewHolder viewHolder,
+                                              @NonNull RecyclerView.ViewHolder target) {
+                            return false;
+                        }
+
+                        @Override
+                        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder,
+                                             int direction) {
+                            int position = viewHolder.getAdapterPosition();
+                            Favourite favourite = favourites.get(position);
+                            mFavouritesViewModel.delete(favourite);
+                            View view = findViewById(R.id.favourite_activity);
+                            Snackbar.make(view, favourites_deleted, Snackbar.LENGTH_SHORT)
+                                    .setAction(R.string.undo, v ->
+                                            mFavouritesViewModel.insert(favourite))
+                                    .show();
+                        }
+                    };
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+            itemTouchHelper.attachToRecyclerView(mRecyclerView);
+
+            if (favouriteSize > 0) {
                 mInitialText.setVisibility(View.GONE);
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mDeleteAll.setVisibility(View.VISIBLE);
@@ -60,11 +98,13 @@ public class FavouriteActivity extends AppCompatActivity {
         });
 
         mDeleteAll.setOnClickListener(view -> {
+            mFavouriteList = mFavouritesViewModel.getAllFavourites().getValue();
             FavouritesViewModel mFavouritesViewModel1 = new ViewModelProvider
                     (FavouriteActivity.this).get(FavouritesViewModel.class);
             mFavouritesViewModel1.deleteAll();
-            Toast.makeText(FavouriteActivity.this,
-                    favourites_deleted, Toast.LENGTH_SHORT).show();
+            Snackbar.make(view, favourites_deleted, Snackbar.LENGTH_SHORT)
+                    .setAction(R.string.undo, view1 -> mFavouritesViewModel.insertFavourites(mFavouriteList))
+                    .show();
         });
     }
 }

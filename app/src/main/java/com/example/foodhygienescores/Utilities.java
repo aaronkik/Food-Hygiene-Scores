@@ -1,6 +1,11 @@
 package com.example.foodhygienescores;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
+
+import com.example.foodhygienescores.db.Favourite;
+import com.example.foodhygienescores.viewmodel.FavouritesViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,5 +64,49 @@ public class Utilities {
             }
         }
         return stringBuilder.toString();
+    }
+
+
+    /**
+     * Adds a new Favourite to the Room DB
+     *
+     * @param arm  APIResultsModel
+     * @param vmso ViewModelOwner
+     */
+    public static void addFavouriteToRoom(@NonNull APIResultsModel arm, ViewModelStoreOwner vmso) {
+        FavouritesViewModel mFavouritesViewModel = new ViewModelProvider
+                (vmso).get(FavouritesViewModel.class);
+        Favourite favourite = new Favourite(
+                arm.getFHRSID(),
+                arm.getBusinessName(),
+                arm.getAddressLine1(),
+                arm.getAddressLine2(),
+                arm.getAddressLine3(),
+                arm.getAddressLine4(),
+                arm.getPostCode(),
+                arm.getRatingValue(),
+                arm.getAuthorityName(),
+                arm.getAuthorityWebsite(),
+                arm.getAuthorityEmail(),
+                arm.getScoreHygiene(),
+                arm.getScoreStructural(),
+                arm.getScoreConInMan(),
+                arm.getLongitude(),
+                arm.getLatitude()
+        );
+        mFavouritesViewModel.insert(favourite);
+    }
+
+
+    /**
+     * Deletes a Favourite from Room by FHRSID
+     *
+     * @param vmso   ViewModelStoreOwner
+     * @param fhrsid FHRSID of business
+     */
+    public static void deleteFromRoomByFhrsid(ViewModelStoreOwner vmso, int fhrsid) {
+        FavouritesViewModel mFavouritesViewModel = new ViewModelProvider
+                (vmso).get(FavouritesViewModel.class);
+        mFavouritesViewModel.deleteByFhrsid(fhrsid);
     }
 }

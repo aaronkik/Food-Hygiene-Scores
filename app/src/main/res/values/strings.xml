@@ -38,4 +38,6 @@
     <string name="delete_all">Delete All</string>
     <string name="favourites_deleted">All Favourites Deleted</string>
     <string name="favourite_removed">Favourite Removed</string>
+    <string name="added_favourites">Added to favourites</string>
+    <string name="undo">Undo</string>
 </resources>

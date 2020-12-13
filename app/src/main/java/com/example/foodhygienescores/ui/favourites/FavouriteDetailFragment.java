@@ -143,6 +143,5 @@ public class FavouriteDetailFragment extends Fragment {
                 (FavouriteDetailFragment.this).get(FavouritesViewModel.class);
         mFavouritesViewModel.delete(mFavourite);
         Toast.makeText(getContext(), R.string.favourite_removed, Toast.LENGTH_SHORT).show();
-
     }
 }

@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.foodhygienescores.APIResultsModel;
 import com.example.foodhygienescores.ui.main.MainActivity;
 import com.example.foodhygienescores.R;
 import com.example.foodhygienescores.db.Favourite;
@@ -69,6 +70,10 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.Favo
     void setFavouritesList(List<Favourite> favouritesList) {
         mFavouriteList = favouritesList;
         notifyDataSetChanged();
+    }
+
+    public Favourite getFavouritePosition(int position) {
+        return mFavouriteList.get(position);
     }
 
     @NonNull

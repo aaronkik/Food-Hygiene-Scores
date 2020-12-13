@@ -28,8 +28,16 @@ public class FavouritesViewModel extends AndroidViewModel {
         mRepository.insert(favourite);
     }
 
+    public void insertFavourites(List<Favourite> favourites) {
+        mRepository.insertFavourites(favourites);
+    }
+
     public void delete(Favourite favourite) {
         mRepository.delete(favourite);
+    }
+
+    public void deleteByFhrsid(int fhrsid) {
+        mRepository.deleteByFhrsid(fhrsid);
     }
 
     public void deleteAll() {

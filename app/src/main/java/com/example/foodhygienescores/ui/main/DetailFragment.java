@@ -20,9 +20,11 @@ import com.example.foodhygienescores.R;
 import com.example.foodhygienescores.db.Favourite;
 import com.example.foodhygienescores.viewmodel.FavouritesViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import static com.example.foodhygienescores.R.string.saved_error;
 import static com.example.foodhygienescores.R.string.saved_message;
+import static com.example.foodhygienescores.Utilities.addFavouriteToRoom;
 import static com.example.foodhygienescores.Utilities.addressFormatter;
 
 /**
@@ -129,10 +131,12 @@ public class DetailFragment extends Fragment {
         if (isWideScreen) {
             container.findViewById(R.id.fragmentText).setVisibility(View.GONE);
             mFavouriteButton = view.findViewById(R.id.button_favourite);
-            mFavouriteButton.setOnClickListener(view1 -> addFavourite());
+            mFavouriteButton.setOnClickListener(view1 ->
+                    addFavouriteToRoom(mResultDetail, DetailFragment.this));
         } else {
             FloatingActionButton mFavouriteFab = view.findViewById(R.id.fab_favourite);
-            mFavouriteFab.setOnClickListener(view2 -> addFavourite());
+            mFavouriteFab.setOnClickListener(view2 ->
+                    addFavouriteToRoom(mResultDetail, DetailFragment.this));
         }
 
         mOpenMapButton = view.findViewById(R.id.button_show_map);
@@ -151,33 +155,8 @@ public class DetailFragment extends Fragment {
         return view;
     }
 
-    private void addFavourite() {
-        try {
-            FavouritesViewModel mFavouritesViewModel = new ViewModelProvider
-                    (DetailFragment.this).get(FavouritesViewModel.class);
-            Favourite favourite = new Favourite(
-                    FHRSID,
-                    business_name,
-                    address_line1,
-                    address_line2,
-                    address_line3,
-                    address_line4,
-                    postcode,
-                    rating_value,
-                    authority_name,
-                    authority_website,
-                    authority_email,
-                    score_hygiene,
-                    score_structural,
-                    score_con_in_man,
-                    long_,
-                    lat
-            );
-            mFavouritesViewModel.insert(favourite);
-            Toast.makeText(getContext(), saved_message, Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            Toast.makeText(getContext(), saved_error, Toast.LENGTH_SHORT).show();
-        }
+    private void undoSnackBar() {
+        Snackbar snackbar;
     }
 
 }

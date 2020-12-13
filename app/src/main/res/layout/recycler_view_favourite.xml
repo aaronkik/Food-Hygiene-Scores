@@ -12,7 +12,6 @@
         android:id="@+id/favourites_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="?attr/actionBarSize"
         android:scrollbars="vertical"
         android:visibility="gone" />
 
