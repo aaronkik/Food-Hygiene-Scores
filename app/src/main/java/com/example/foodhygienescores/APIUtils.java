@@ -44,7 +44,7 @@ public class APIUtils {
         String query;
         String userLongitude;
         String userLatitude;
-
+        // query key is search bar text
         if (bundle.get("query") != null) {
             query = bundle.getString("query");
             builtURI = Uri.parse(API_URL).buildUpon()

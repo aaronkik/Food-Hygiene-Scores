@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -39,6 +40,7 @@ public class FavouriteDetailFragment extends Fragment {
     public FavouriteDetailFragment() {
     }
 
+    @NonNull
     public static FavouriteDetailFragment newInstance(Favourite favourite) {
         FavouriteDetailFragment fragment = new FavouriteDetailFragment();
         Bundle args = new Bundle();
@@ -71,7 +73,7 @@ public class FavouriteDetailFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favourite_detail, container, false);
         mBusinessName = view.findViewById(R.id.business_name);
