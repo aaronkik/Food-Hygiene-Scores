@@ -70,29 +70,30 @@ public class Utilities {
     /**
      * Adds a new Favourite to the Room DB
      *
-     * @param arm  APIResultsModel
-     * @param vmso ViewModelOwner
+     * @param apiResultsModel APIResultsModel
+     * @param vmso            ViewModelOwner
      */
-    public static void addFavouriteToRoom(@NonNull APIResultsModel arm, ViewModelStoreOwner vmso) {
+    public static void addFavouriteToRoom(@NonNull APIResultsModel apiResultsModel,
+                                          ViewModelStoreOwner vmso) {
         FavouritesViewModel mFavouritesViewModel = new ViewModelProvider
                 (vmso).get(FavouritesViewModel.class);
         Favourite favourite = new Favourite(
-                arm.getFHRSID(),
-                arm.getBusinessName(),
-                arm.getAddressLine1(),
-                arm.getAddressLine2(),
-                arm.getAddressLine3(),
-                arm.getAddressLine4(),
-                arm.getPostCode(),
-                arm.getRatingValue(),
-                arm.getAuthorityName(),
-                arm.getAuthorityWebsite(),
-                arm.getAuthorityEmail(),
-                arm.getScoreHygiene(),
-                arm.getScoreStructural(),
-                arm.getScoreConInMan(),
-                arm.getLongitude(),
-                arm.getLatitude()
+                apiResultsModel.getFHRSID(),
+                apiResultsModel.getBusinessName(),
+                apiResultsModel.getAddressLine1(),
+                apiResultsModel.getAddressLine2(),
+                apiResultsModel.getAddressLine3(),
+                apiResultsModel.getAddressLine4(),
+                apiResultsModel.getPostCode(),
+                apiResultsModel.getRatingValue(),
+                apiResultsModel.getAuthorityName(),
+                apiResultsModel.getAuthorityWebsite(),
+                apiResultsModel.getAuthorityEmail(),
+                apiResultsModel.getScoreHygiene(),
+                apiResultsModel.getScoreStructural(),
+                apiResultsModel.getScoreConInMan(),
+                apiResultsModel.getLongitude(),
+                apiResultsModel.getLatitude()
         );
         mFavouritesViewModel.insert(favourite);
     }
