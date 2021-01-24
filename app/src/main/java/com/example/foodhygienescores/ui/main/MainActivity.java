@@ -229,6 +229,7 @@ public class MainActivity extends AppCompatActivity implements
                     (this, new String[]
                             {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
         } else {
+
             mFusedLocation.getLastLocation().addOnSuccessListener
                     (location -> {
                         if (location != null) {

@@ -3,6 +3,7 @@ package com.example.foodhygienescores.controller;
 import android.app.Application;
 import android.os.AsyncTask;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
 import com.example.foodhygienescores.db.Favourite;
@@ -12,8 +13,8 @@ import com.example.foodhygienescores.db.FavouriteRoomDatabase;
 import java.util.List;
 
 public class FavouritesRepository {
-    private FavouriteDao mFavouriteDao;
-    private LiveData<List<Favourite>> mResultsList;
+    private final FavouriteDao mFavouriteDao;
+    private final LiveData<List<Favourite>> mResultsList;
 
     public FavouritesRepository(Application application) {
         FavouriteRoomDatabase db = FavouriteRoomDatabase.getDatabase(application);
@@ -46,50 +47,50 @@ public class FavouritesRepository {
     }
 
     private static class insertAsyncTask extends AsyncTask<Favourite, Void, Void> {
-        private FavouriteDao mFavouriteDao;
+        private final FavouriteDao mFavouriteDao;
 
         insertAsyncTask(FavouriteDao favouriteDao) {
             mFavouriteDao = favouriteDao;
         }
 
         @Override
-        protected Void doInBackground(final Favourite... favourites) {
+        protected Void doInBackground(@NonNull final Favourite... favourites) {
             mFavouriteDao.insert(favourites[0]);
             return null;
         }
     }
 
     private static class insertFavouritesAsyncTask extends AsyncTask<List<Favourite>, Void, Void> {
-        private FavouriteDao mFavouriteDao;
+        private final FavouriteDao mFavouriteDao;
 
         insertFavouritesAsyncTask(FavouriteDao favouriteDao) {
             mFavouriteDao = favouriteDao;
         }
 
         @Override
-        protected Void doInBackground(final List<Favourite>... favourites) {
+        protected Void doInBackground(@NonNull final List<Favourite>... favourites) {
             mFavouriteDao.insertFavourites(favourites[0]);
             return null;
         }
     }
 
     private static class deleteAsyncTask extends AsyncTask<Favourite, Void, Void> {
-        private FavouriteDao mFavouriteDao;
+        private final FavouriteDao mFavouriteDao;
 
         deleteAsyncTask(FavouriteDao favouriteDao) {
             mFavouriteDao = favouriteDao;
         }
 
         @Override
-        protected Void doInBackground(Favourite... favourites) {
+        protected Void doInBackground(@NonNull Favourite... favourites) {
             mFavouriteDao.deleteFavourite(favourites[0]);
             return null;
         }
     }
 
     private static class deleteFhrsidAsyncTask extends AsyncTask<Void, Void, Void> {
-        private FavouriteDao mFavouriteDao;
-        private int mFhrsid;
+        private final FavouriteDao mFavouriteDao;
+        private final int mFhrsid;
 
         deleteFhrsidAsyncTask(FavouriteDao favouriteDao, int fhrsid) {
             mFavouriteDao = favouriteDao;
@@ -104,7 +105,7 @@ public class FavouritesRepository {
     }
 
     private static class deleteAllAsyncTask extends AsyncTask<Void, Void, Void> {
-        private FavouriteDao mFavouriteDao;
+        private final FavouriteDao mFavouriteDao;
 
         deleteAllAsyncTask(FavouriteDao favouriteDao) {
             mFavouriteDao = favouriteDao;
