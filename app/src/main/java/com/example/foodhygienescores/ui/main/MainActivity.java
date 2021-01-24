@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        // Check if wide screen
         if (findViewById(R.id.wide_layout) != null) {
             isWideScreen = true;
         }
